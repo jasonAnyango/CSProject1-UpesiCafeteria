@@ -92,17 +92,9 @@ export const verifyOTP = async (req, res) => {
         if(otpRecord.otpExpiry < new Date()) {
             return res.status(400).json({ message: "OTP has expired" });
         }
-
-        // Hash the password
-        //const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Generate user ID
-        const userCount = await User.countDocuments();
-        const userId = `u${userCount + 1}`; // Simple user ID generation: u1, u2,...
-
+        
         // Create a new user in the database
         const newUser = await User.create({
-            _id: userId,
             email: email,
             name: name,
             role: "Customer", // Default role

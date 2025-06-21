@@ -48,9 +48,9 @@ const Home = () => {
             <h2 className="text-4xl font-bold text-center mb-12">About Us</h2>
             <div className="grid md:grid-cols-3 gap-10 items-center">
                 <img src={homeImage} alt="About Upesi 1" className="w-full h-auto rounded-lg shadow-md" />
-                <div className="flex flex-col justify-center h-full space-y-4 text-center md:text-left">
+                <div className="flex flex-col justify-center items-center h-full space-y-4 text-center md:text-left">
                     <h2 className="text-3xl font-bold mb-4">Why Choose Upesi?</h2>
-                    <p className="mb-4">We’re redefining fast food for students and professionals. Enjoy quality meals made fresh every day with unbeatable convenience.</p>
+                    <p className="mb-4 text-center">We’re redefining fast food for students and professionals. Enjoy quality meals made fresh every day with unbeatable convenience.</p>
                     <button className="bg-amber-800 text-white px-6 py-3 rounded-md hover:bg-amber-900 font-semibold">Learn More</button>
                 </div>
                 <img src={homeImage} alt="About Upesi 2" className="w-full h-auto rounded-lg shadow-md" />

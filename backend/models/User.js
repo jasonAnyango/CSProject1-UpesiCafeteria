@@ -3,10 +3,6 @@ import bcrypt from "bcryptjs"; // Import bcrypt for password hashing
 
 // Define User Collection Schema
 const userSchema = new mongoose.Schema({
-    // Override the default _id field with a custom type
-    _id: {
-        type: String,
-    },
     name: {
         type: String,
         required: true,
