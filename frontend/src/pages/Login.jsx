@@ -1,9 +1,46 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../assets/homeImage.png';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+    // States
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const navigate = useNavigate()
+
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.post('http://localhost:5000/api/auth/login', {
+                email,
+                password
+            })
+
+            // Store login token in localStorage
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data.user))
+
+            Swal.fire({
+                title: "Login Successful",
+                text: `Welcome ${response.data.user.name}`,
+                icon: "success"
+            })
+
+            // Redirect to home page
+            navigate('/')
+        } catch (error) {
+            Swal.fire({
+                title: "Login Failed",
+                text: error.response ? error.response.data.message : "Something went wrong",
+                icon: "error"
+            })
+        }
+    }
+
   return (
     <motion.div
       className="min-h-screen flex items-center justify-center bg-gray-900"
@@ -25,9 +62,9 @@ const Login = () => {
               <div className="text-4xl font-bold text-amber-800">🍽️</div>
               <h2 className="text-2xl font-semibold mt-2 text-white">Upesi Cafeteria</h2>
             </div>
-            <form className="space-y-4">
-              <input type="email" placeholder="Email" className="w-full p-3 border rounded-md" />
-              <input type="password" placeholder="Password" className="w-full p-3 border rounded-md" />
+            <form className="space-y-4" onSubmit={handleLogin}>
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full p-3 border rounded-md" />
+              <input type="password" placeholder="Password" value={password}  onChange={(e) => setPassword(e.target.value)} className="w-full p-3 border rounded-md" />
               <button type="submit" className="w-full bg-amber-800 text-white py-3 rounded-md font-semibold">
                 Log In
               </button>

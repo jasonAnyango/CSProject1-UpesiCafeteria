@@ -1,9 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import signupImage from '../assets/homeImage.png';
 import { motion } from 'framer-motion';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
+    // States
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        // Prevent the default submit behavior
+        e.preventDefault();
+
+        try {
+            // Post to backend
+            const response = await axios.post("http://localhost:5000/api/auth/register", {
+                name,
+                email,
+                password,
+                confirmPassword
+            })
+
+            // Success Alert
+            Swal.fire({
+                title: 'OTP sent!',
+                text: 'Check your email for the verification code.',
+                icon:'success'
+            })
+            // Pass user details to OTP verification --> We'll use states
+            navigate('/verify', {state: {name, email, password}})
+        } catch (error) {
+            Swal.fire({
+                title: "Registration Failed",
+                text: error.response ? error.response.data.message : "Something went wrong",
+                icon: "error"
+            })
+        }
+    }
   return (
     <motion.div
       className="min-h-screen flex items-center justify-center bg-gray-900"
@@ -20,11 +59,20 @@ const Signup = () => {
               <div className="text-4xl font-bold text-amber-800">🍽️</div>
               <h2 className="text-2xl font-semibold mt-2 text-white">Upesi Cafeteria</h2>
             </div>
-            <form className="space-y-4 text-white">
-              <input type="text" placeholder="Name" className="w-full p-3 border rounded-md" />
-              <input type="email" placeholder="Email" className="w-full p-3 border rounded-md" />
-              <input type="password" placeholder="Password" className="w-full p-3 border rounded-md" />
-              <input type="password" placeholder="Confirm Password" className="w-full p-3 border rounded-md" />
+            <form className="space-y-4 text-white" onSubmit={handleSubmit}>
+                {/* Name Input */}
+              <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}
+              className="w-full p-3 border rounded-md" />
+                {/* Email Input */}
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
+              className="w-full p-3 border rounded-md" />
+                {/* Password Input */}
+              <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border rounded-md" />
+                {/* Confirm Password Input */}
+              <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full p-3 border rounded-md" />
+                {/* Submit button */}
               <button type="submit" className="w-full bg-amber-800 text-white py-3 rounded-md font-semibold">
                 Sign Up
               </button>

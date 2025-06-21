@@ -46,7 +46,7 @@ export const initiateRegistration = async (req, res) => {
             auth: {
                 user: EMAIL_USER,
                 pass: GMAIL_APP_PASSWORD
-            }
+            }, tls: {rejectUnauthorized: false}
         });
 
         // The mail options for sending the OTP
@@ -72,7 +72,7 @@ export const initiateRegistration = async (req, res) => {
 
     } catch (error) {
         console.error(`Error in OTP registration: ${error.message}`);
-        res.status(500).json({ message: "Registration Initiation Failed" });
+        res.status(500).json({ message: error.message });
     }
 }
 
