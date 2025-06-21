@@ -1,38 +1,15 @@
 import React from 'react';
-import homeImage from '../assets/homeImage4.png';
+import homeImage from '../assets/homeImage8.png';
+import { motion } from 'framer-motion'
 
 const Home = () => {
   return (
-    // <div className="min-h-screen text-black font-sans">
-    //   {/* Navigation Bar with Amber Gradient */}
-    //   <div className="flex justify-evenly items-center bg-gradient-to-l from-amber-600 to-amber-800 p-4 shadow-md">
-    //     <h1><a href="homePage" className="text-white text-lg font-semibold hover:underline">Home</a></h1>
-    //     <h1><a href="menuPage" className="text-white text-lg font-semibold hover:underline">Menu</a></h1>
-    //     <h1><a href="aboutPage" className="text-white text-lg font-semibold hover:underline">About Us</a></h1>
-    //     <h1><a href="contactPage" className="text-white text-lg font-semibold hover:underline">Contact</a></h1>
-    //   </div>
-
-    //   {/* Content Section with Background Image */}
-    //   <div
-    //     className="h-[calc(100vh-80px)] bg-cover bg-center px-8 md:px-16 py-16 text-white"
-    //     style={{ backgroundImage: `url(${homeImage})` }}
-    //   >
-    //     <div className="max-w-3xl">
-    //       <h1 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">UPESI CAFETERIA</h1>
-    //       <p className="text-lg md:text-xl mb-6 bg-black bg-opacity-50 p-4 rounded-lg shadow-lg">
-    //         Welcome to Upesi Cafeteria — your go-to spot for quick, delicious meals made with care.
-    //         Whether you're on a tight schedule or just craving something satisfying, we make ordering
-    //         easy and fast without compromising on flavor. From breakfast bites to hearty lunches,
-    //         Upesi serves up freshness, speed, and convenience every time.
-    //       </p>
-    //       <button className="px-6 py-3 bg-amber-800 hover:bg-amber-900 text-white font-semibold rounded-lg shadow-lg transition duration-300">
-    //         View Menu
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
-
-    <>
+    <motion.div
+    initial={{opacity:0, y:-50}}
+    animate={{opacity:100, y:0}}
+    exit={{opacity:0, y:-50}}
+    transition={{duration:0.5}}
+    >
         <div
         className="h-screen bg-cover bg-center flex flex-col items-center justify-center text-white text-center px-4"
         style={{ backgroundImage: `url(${homeImage})`, backgroundBlendMode: 'darken', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
@@ -88,7 +65,7 @@ const Home = () => {
         </div>
       </div>
     </section>
-    </>
+    </motion.div>
   );
 };
 
