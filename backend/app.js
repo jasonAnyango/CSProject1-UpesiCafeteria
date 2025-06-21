@@ -3,7 +3,9 @@ import express from 'express'; // for creating the server
 import cors from 'cors'; // for handling CORS
 import otpRoutes from './routes/otpRoutes.js'; // for registration and OTP routes
 import authRoutes from './routes/authRoutes.js' // for login authentication route
-import menuRoutes from './routes/menuRoutes.js'; // for menu routes (uncomment when implemented)
+import menuRoutes from './routes/menuRoutes.js'; // for menu routes
+import orderRoutes from './routes/orderRoutes.js'; // for order routes 
+import deliveryLocationRoutes from './routes/deliveryLocationRoutes.js'; // for delivery location routes
 
 // Create an Express application
 const app = express();
@@ -20,6 +22,9 @@ app.use('/api/auth', otpRoutes);
 app.use('/api/auth', authRoutes);
 // Menu routes - Cafeteria menu management
 app.use('/api/menu', menuRoutes);
-
+// Order routes
+app.use('/api/order', orderRoutes);
+// Delivery Location routes
+app.use('/api/deliveryLocation', deliveryLocationRoutes);
 
 export default app;
