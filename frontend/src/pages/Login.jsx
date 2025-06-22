@@ -74,6 +74,12 @@ const Login = () => {
                   Create One
                 </Link>
               </p>
+              <p className="text-center text-sm text-white">
+                Forgot Password?{' '}
+                <Link to="/forgot-password" className="text-amber-800 font-medium hover:underline">
+                  Reset Password
+                </Link>
+              </p>
             </form>
           </div>
         </div>

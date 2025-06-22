@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom'
 const Navbar = () => {
   return (
     <nav className="fixed w-screen z-100 flex justify-between items-center p-4 bg-gray-900 text-white shadow-md">
-      <div className="text-2xl font-bold">Upesi Cafeteria</div>
+      <Link to='/'>
+        <div className="text-2xl font-bold">Upesi Cafeteria</div>
+      </Link>
       <div className="hidden md:flex gap-8">
         <a href="/" className="hover:underline">Home</a>
         <a href="#menu" className="hover:underline">Menu</a>
