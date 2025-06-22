@@ -9,7 +9,7 @@ const Navbar = () => {
       </Link>
       <div className="hidden md:flex gap-8">
         <a href="/" className="hover:underline">Home</a>
-        <a href="#menu" className="hover:underline">Menu</a>
+        <a href="/menu" className="hover:underline">Menu</a>
         <a href="#about" className="hover:underline">About Us</a>
         <a href="#contact" className="hover:underline">Contact</a>
       </div>

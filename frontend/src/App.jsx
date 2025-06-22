@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar.jsx"
 import Login from "./pages/Login.jsx"
 import Signup from "./pages/Signup.jsx"
 import Menu from "./pages/Menu.jsx"
+import ItemDetail from "./pages/ItemDetail.jsx"
 import Verify from "./pages/Verify.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 import VerifyResetOtp from "./pages/VerifyResetOtp.jsx"
@@ -22,6 +23,7 @@ const App = () => {
             <Route path="/verify" element={<Verify />}></Route>
             <Route path="/forgot-password" element={<ForgotPassword />}></Route>
             <Route path="/menu" element={<Menu />}></Route>
+            <Route path="/itemDetail" element={<ItemDetail />}></Route>
             <Route path="/verify-reset-otp" element={<VerifyResetOtp />}></Route>
             <Route path="/reset-password" element={<ResetPassword />}></Route>
           </Routes>
