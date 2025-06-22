@@ -8,7 +8,7 @@ import suggestion3 from '../assets/homeImage.png';
 
 const ItemDetail = () => {
   const location = useLocation();
-  const { name, image, description, status, price } = location.state || {};
+  const { name, image_url, description, available, price } = location.state || {};
 
   return (
     <motion.div
@@ -24,13 +24,13 @@ const ItemDetail = () => {
       <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row mb-12">
         {/* Image */}
         <div className="md:w-1/4 w-full h-64 md:h-auto">
-          <img src={image} alt={name} className="w-full h-full object-cover" />
+          <img src={image_url} alt={name} className="w-full h-full object-cover" />
         </div>
 
         {/* Description */}
         <div className="md:w-3/4 w-full p-6 text-white space-y-4">
           <p className="text-gray-300 text-base whitespace-pre-line">{description}</p>
-          <p className={`font-semibold ${status === 'Available' ? 'text-green-400' : 'text-red-400'}`}>Status: {status}</p>
+          <p className={`font-semibold ${available === true ? 'text-green-400' : 'text-red-400'}`}>Status: {available ? 'Available' : 'Unavailable'}</p>
           <p className="text-lg font-bold text-amber-500">Price: {price}</p>
         </div>
       </div>
