@@ -1,5 +1,4 @@
 // src/pages/ItemDetail.jsx
-import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import suggestion1 from '../assets/homeImage.png';
@@ -34,7 +33,7 @@ const ItemDetail = () => {
           <p className="text-lg font-bold text-amber-500">Price: {price}</p>
         </div>
       </div>
-
+      
       {/* Suggestions Section */}
       <h2 className="text-2xl font-bold text-white mb-6">You may also like</h2>
       <div className="grid md:grid-cols-3 gap-6">

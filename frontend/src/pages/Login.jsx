@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../assets/homeImage.png';
+import { AuthContext } from '../context/AuthContext';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -12,6 +13,8 @@ const Login = () => {
 
     const navigate = useNavigate()
 
+    const { setUser } = useContext(AuthContext)
+
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
@@ -22,6 +25,7 @@ const Login = () => {
 
             // Store login token in localStorage
             localStorage.setItem('token', response.data.token);
+            // Store user information in localStorage
             localStorage.setItem('user', JSON.stringify(response.data.user))
 
             Swal.fire({
@@ -29,9 +33,9 @@ const Login = () => {
                 text: `Welcome ${response.data.user.name}`,
                 icon: "success"
             })
-
-            // Redirect to home page
-            navigate('/')
+            setUser(response.data.user) // Set user in context
+            // Redirect to menu page
+            navigate('/menu')
         } catch (error) {
             Swal.fire({
                 title: "Login Failed",
