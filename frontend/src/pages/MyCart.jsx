@@ -1,31 +1,16 @@
 // src/pages/MyCart.jsx
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import dish1 from '../assets/homeImage.png';
-
-const cartItems = [
-  {
-    name: 'Spicy Chicken Pilau',
-    image: dish1,
-    description: 'Fragrant rice dish simmered with tender chicken, cloves, and cumin.',
-    price: 450,
-  },
-  {
-    name: 'Chapati Beef Wrap',
-    image: dish1,
-    description: 'Soft chapati filled with savory beef and crunchy veggies.',
-    price: 350,
-  },
-  {
-    name: 'Grilled Veggie Bowl',
-    image: dish1,
-    description: 'A healthy mix of grilled seasonal vegetables over rice.',
-    price: 400,
-  },
-];
 
 const MyCart = () => {
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const cartItem = location.state || null;
+  const cartItems = cartItem ? [cartItem] : [];
+
+  const subtotal = cartItems.reduce((acc, item) => acc + parseInt(item.price), 0);
 
   const handleCheckout = () => {
     alert('Proceeding to checkout...');
@@ -33,6 +18,7 @@ const MyCart = () => {
 
   const handleEmptyCart = () => {
     alert('Cart emptied.');
+    navigate('/menu');
   };
 
   return (
@@ -46,25 +32,29 @@ const MyCart = () => {
       <div className="flex flex-col lg:flex-row gap-10">
         {/* Cart Items */}
         <div className="flex-1 space-y-6">
-          {cartItems.map((item, index) => (
-            <div
-              key={index}
-              className="bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row"
-            >
-              <div className="md:w-1/4 w-full h-48">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover"
-                />
+          {cartItems.length > 0 ? (
+            cartItems.map((item, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row"
+              >
+                <div className="md:w-1/4 w-full h-48">
+                  <img
+                    src={item.image_url}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="md:w-3/4 w-full p-4 text-white">
+                  <h2 className="text-2xl font-semibold mb-1">{item.name}</h2>
+                  <p className="text-gray-300 text-sm mb-2 line-clamp-3">{item.description}</p>
+                  <p className="text-amber-500 font-bold">KES {item.price}</p>
+                </div>
               </div>
-              <div className="md:w-3/4 w-full p-4 text-white">
-                <h2 className="text-2xl font-semibold mb-1">{item.name}</h2>
-                <p className="text-gray-300 text-sm mb-2 line-clamp-3">{item.description}</p>
-                <p className="text-amber-500 font-bold">KES {item.price}</p>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-white">Your cart is empty.</p>
+          )}
         </div>
 
         {/* Cart Summary */}
@@ -90,3 +80,4 @@ const MyCart = () => {
 };
 
 export default MyCart;
+

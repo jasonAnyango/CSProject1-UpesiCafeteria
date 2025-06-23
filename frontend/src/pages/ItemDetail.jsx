@@ -1,5 +1,5 @@
 // src/pages/ItemDetail.jsx
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import suggestion1 from '../assets/homeImage.png';
 import suggestion2 from '../assets/homeImage.png';
@@ -7,12 +7,25 @@ import suggestion3 from '../assets/homeImage.png';
 
 const ItemDetail = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { name, image_url, description, available, price } = location.state || {};
 
   const handleAddToCart = () => {
-    // For now, just log to console or you could integrate with context/store
     console.log(`Added to cart: ${name}`);
     alert(`${name} added to cart!`);
+  };
+
+  const handleCompleteCheckout = () => {
+    // Navigate to cart page with item details
+    navigate('/myCart', {
+      state: {
+        name,
+        image_url,
+        description,
+        available,
+        price
+      }
+    });
   };
 
   return (
@@ -35,17 +48,28 @@ const ItemDetail = () => {
         {/* Description */}
         <div className="md:w-3/4 w-full p-6 text-white space-y-4">
           <p className="text-gray-300 text-base whitespace-pre-line line-clamp-4">{description}</p>
-          <p className={`font-semibold ${available === true ? 'text-green-400' : 'text-red-400'}`}>Status: {available ? 'Available' : 'Unavailable'}</p>
+          <p className={`font-semibold ${available === true ? 'text-green-400' : 'text-red-400'}`}>
+            Status: {available ? 'Available' : 'Unavailable'}
+          </p>
           <p className="text-lg font-bold text-amber-500">Price: {price}</p>
-          <button
-            onClick={handleAddToCart}
-            className="mt-4 px-6 py-3 bg-amber-800 hover:bg-amber-900 text-white font-semibold rounded-md"
-          >
-            Add to Cart
-          </button>
+
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <button
+              onClick={handleAddToCart}
+              className="px-6 py-3 bg-amber-800 hover:bg-amber-900 text-white font-semibold rounded-md"
+            >
+              Add to Cart
+            </button>
+            <button
+              onClick={handleCompleteCheckout}
+              className="px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-md"
+            >
+              Complete Checkout
+            </button>
+          </div>
         </div>
       </div>
-      
+
       {/* Suggestions Section */}
       <h2 className="text-2xl font-bold text-white mb-6">You may also like</h2>
       <div className="grid md:grid-cols-3 gap-6">
