@@ -1,18 +1,37 @@
-// src/pages/ItemDetail.jsx
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Swal from 'sweetalert2'
+import { useCart } from '../context/CartContext'
 import suggestion1 from '../assets/homeImage.png';
 import suggestion2 from '../assets/homeImage.png';
 import suggestion3 from '../assets/homeImage.png';
 
 const ItemDetail = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { addToCart } = useCart()
+  const location = useLocation()
+  const navigate = useNavigate()
   const { name, image_url, description, available, price } = location.state || {};
 
   const handleAddToCart = () => {
-    console.log(`Added to cart: ${name}`);
-    alert(`${name} added to cart!`);
+    // Check for user token
+    const user =  JSON.parse(localStorage.getItem('user'))
+    if(!user) {
+      // Alert and redirect to login
+      Swal.fire({
+        title: "Login Required",
+        text: "Please login to add this item to your cart",
+        icon: "warning"
+      })
+      navigate('/login')
+    }
+    // Add the item to cart
+    addToCart({ name, image_url, description, price})
+    // Alert 
+    Swal.fire({
+      title: "Added to Cart!",
+      text: `${name} added to your cart.`,
+      icon: "success"
+    })
   };
 
   const handleCompleteCheckout = () => {
@@ -54,12 +73,15 @@ const ItemDetail = () => {
           <p className="text-lg font-bold text-amber-500">Price: {price}</p>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            {available 
+            ? (
             <button
               onClick={handleAddToCart}
               className="px-6 py-3 bg-amber-800 hover:bg-amber-900 text-white font-semibold rounded-md"
             >
               Add to Cart
-            </button>
+            </button>)
+            : ''}
             <button
               onClick={handleCompleteCheckout}
               className="px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-md"

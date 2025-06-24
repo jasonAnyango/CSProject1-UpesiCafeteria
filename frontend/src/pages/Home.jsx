@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import homeImage from '../assets/homeImage8.png';
 import { motion } from 'framer-motion'
 
@@ -16,9 +17,11 @@ const Home = () => {
         >
             <h1 className="text-5xl md:text-7xl font-extrabold drop-shadow-lg">UPESI CAFETERIA</h1>
             <p className="mt-4 text-xl max-w-xl">Fast, Fresh, and Flavorful — Upesi delivers more than just a meal!</p>
-            <button className="mt-6 px-6 py-3 bg-amber-800 hover:bg-amber-900 text-white font-semibold rounded-lg shadow-lg">
+            <Link to='/menu'>
+              <button className="mt-6 px-6 py-3 bg-amber-800 hover:bg-amber-900 text-white font-semibold rounded-lg shadow-lg hover:cursor-pointer">
                 View Menu
-            </button>
+              </button>
+            </Link>
         </div>
 
         <section id="about" className="py-20 px-6 md:px-16 bg-gray-900 text-white">

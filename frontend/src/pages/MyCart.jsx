@@ -1,22 +1,22 @@
-// src/pages/MyCart.jsx
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import Swal from 'sweetalert2';
+import { useCart } from '../context/CartContext';
 
 const MyCart = () => {
-  const location = useLocation();
+  const { cartItems, addToCart, removeFromCart, removeItemCompletely, clearCart } = useCart();
   const navigate = useNavigate();
 
-  const cartItem = location.state || null;
-  const cartItems = cartItem ? [cartItem] : [];
-
-  const subtotal = cartItems.reduce((acc, item) => acc + parseInt(item.price), 0);
+  const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   const handleCheckout = () => {
     alert('Proceeding to checkout...');
+    
   };
 
   const handleEmptyCart = () => {
+    clearCart();
     alert('Cart emptied.');
     navigate('/menu');
   };
@@ -48,7 +48,29 @@ const MyCart = () => {
                 <div className="md:w-3/4 w-full p-4 text-white">
                   <h2 className="text-2xl font-semibold mb-1">{item.name}</h2>
                   <p className="text-gray-300 text-sm mb-2 line-clamp-3">{item.description}</p>
-                  <p className="text-amber-500 font-bold">KES {item.price}</p>
+                  <p className="text-amber-500 font-bold mb-2">KES {item.price} x {item.quantity}</p>
+                  <p className="font-bold mb-4">Total: KES {item.price * item.quantity}</p>
+                  
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => removeFromCart(item.name)}
+                      className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white"
+                    >
+                      -
+                    </button>
+                    <button
+                      onClick={() => addToCart(item)}
+                      className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-white"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => removeItemCompletely(item.name)}
+                      className="bg-gray-700 hover:bg-gray-800 px-3 py-1 rounded text-white"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
@@ -64,12 +86,14 @@ const MyCart = () => {
           <button
             onClick={handleCheckout}
             className="w-full bg-amber-800 hover:bg-amber-900 text-white py-3 rounded-md font-semibold mb-4"
+            disabled={cartItems.length === 0}
           >
             Proceed to Checkout
           </button>
           <button
             onClick={handleEmptyCart}
             className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-md font-semibold"
+            disabled={cartItems.length === 0}
           >
             Empty Cart
           </button>
@@ -80,4 +104,3 @@ const MyCart = () => {
 };
 
 export default MyCart;
-

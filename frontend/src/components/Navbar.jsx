@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import shoppingCartIcon from '../assets/shopping-cart.png'; // Importing an icon for the cart
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
@@ -18,12 +19,16 @@ const Navbar = () => {
         <a href="/#about" className="hover:underline">About Us</a>
         <a href="#contact" className="hover:underline">Contact</a>
       </div>
-      <div className="flex gap-4 mr-2">
+      <div className="flex gap-4 mr-2 align-bottom justify-center">
         {/* Check if user is logged in */}
         {user ? (
         // When logged in: 
         <>
           <span className='self-center font-medium'>Hi, {user.name.split(' ')[0]}</span>
+          <Link to='/myCart' className='flex items-center gap-2 bg-amber-800 text-gray-900 px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
+            <img src={shoppingCartIcon} alt="Cart Icon" />
+            <span className='text-white font-bold'>My Cart</span>
+          </Link>
           <button onClick={logout}
           className='bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
             Logout
