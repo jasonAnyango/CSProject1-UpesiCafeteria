@@ -11,7 +11,7 @@ const MyCart = () => {
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   const handleCheckout = () => {
-    alert('Proceeding to checkout...');
+    navigate('/checkout');
     
   };
 
