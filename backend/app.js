@@ -7,6 +7,7 @@ import menuRoutes from './routes/menuRoutes.js'; // for menu routes
 import orderRoutes from './routes/orderRoutes.js'; // for order routes 
 import deliveryLocationRoutes from './routes/deliveryLocationRoutes.js'; // for delivery location routes
 import resetPasswordRoutes from './routes/resetPasswordRoutes.js'; // for password reset routes
+import { initiateStkPush } from './mpesa/stk.js';
 
 // Create an Express application
 const app = express();
@@ -29,4 +30,8 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/order', orderRoutes);
 // Delivery Location routes
 app.use('/api/deliveryLocation', deliveryLocationRoutes);
+
+
+// Mpesa STK push route
+app.use('api/mpesa/pay', initiateStkPush)
 export default app;
