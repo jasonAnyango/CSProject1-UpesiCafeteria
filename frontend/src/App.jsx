@@ -13,6 +13,8 @@ import VerifyResetOtp from "./pages/VerifyResetOtp.jsx"
 import { AnimatePresence } from 'framer-motion'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import ResetPassword from "./pages/ResetPassword.jsx"
+
+
 const App = () => {
   const location = useLocation()
   return (

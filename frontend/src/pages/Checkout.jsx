@@ -16,6 +16,9 @@ const Checkout = () => {
       alert('Please select a delivery location.');
       return;
     }
+     localStorage.setItem('cartTotal', subtotal);
+     localStorage.setItem('deliveryLocation', location);
+
     navigate('/payment');
   };
 

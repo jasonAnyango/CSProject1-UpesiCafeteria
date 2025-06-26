@@ -1,10 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import app from './app.js' // Import the Express application
 import connectDB from './config/db.js'; // Import the database
-// connection function
-import dotenv from 'dotenv'; // for environment variables
+import stkRoutes from './routes/stkRoutes.js';
 
-// Allow the use of environment variables
-dotenv.config();
+app.use('/api', stkRoutes);
+
 
 // Define the port number
 const {PORT} = process.env || 5000;
@@ -17,7 +19,6 @@ const startServer = async () => {
     })
 }
 
-// Call the function to start the server
 startServer().catch((error) => {
     console.error('Error starting the server:', error);
     process.exit(1); // Exit the process with a failure code

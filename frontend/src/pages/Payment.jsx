@@ -1,23 +1,69 @@
 // src/pages/Payment.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import paymentImage from '../assets/image.png';
+import axios from 'axios';
 
 const Payment = () => {
   const [phone, setPhone] = useState('');
+  const [amount, setAmount] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const cartTotal = localStorage.getItem('cartTotal');
+    if (cartTotal) {
+      setAmount(cartTotal);
+    } else {
+      setAmount('0');
+      setMessage('🛒 Cart is empty. Please add items before paying.');
+    }
+  }, []);
 
   const validatePhone = (number) => {
-    if (number.startsWith('07') && number.length === 10) return true;
+    if ((number.startsWith('07') || number.startsWith('01')) && number.length === 10) return true;
     if (number.startsWith('+254') && number.length === 13) return true;
     return false;
   };
 
-  const handleSTKPush = () => {
+  const formatPhone = (number) => {
+    if (number.startsWith('07') || number.startsWith('01')) {
+      return `254${number.slice(1)}`;
+    }
+    if (number.startsWith('+254')) {
+      return number.slice(1); // remove the "+"
+    }
+    return number;
+  };
+
+  const handleSTKPush = async () => {
     if (!validatePhone(phone)) {
-      alert('Please enter a valid phone number (07... or +254...)');
+      setMessage('❌ Please enter a valid phone number (07..., 01..., or +254...)');
       return;
     }
-    alert(`STK Push sent to ${phone}`);
+
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      setMessage('🛒 Cart total not found or zero. Please check your cart.');
+      return;
+    }
+
+    try {
+      const formattedPhone = formatPhone(phone);
+      const res = await axios.post('http://localhost:5000/api/mpesa/pay', {
+        phone: formattedPhone,
+        amount,
+      });
+
+      if (res.data.ResponseCode === '0') {
+        setMessage('✅ STK Push sent! Check your phone and enter your M-Pesa PIN.');
+        localStorage.removeItem('cartTotal');
+        localStorage.removeItem('deliveryLocation');
+      } else {
+        setMessage(`❌ Failed: ${res.data.ResponseDescription}`);
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage('🚫 Error sending STK push. Please try again.');
+    }
   };
 
   return (
@@ -27,26 +73,24 @@ const Payment = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* Page Title */}
       <h1 className="text-5xl font-bold text-white text-center mb-12">Payment</h1>
 
-      {/* Content Section */}
       <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-10 items-center">
-        {/* Image Section */}
         <div className="md:w-1/2 w-full">
           <img src={paymentImage} alt="Payment Visual" className="w-full h-83 rounded-lg" />
         </div>
 
-        {/* Payment Details */}
         <div className="md:w-1/2 w-full text-white">
-          <label htmlFor="phone" className="block text-lg font-semibold mb-2 text-center md:text-left">Enter your phone number:</label>
+          <label htmlFor="phone" className="block text-lg font-semibold mb-2 text-center md:text-left">
+            Enter your phone number:
+          </label>
           <input
             id="phone"
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-amber-600 mb-4"
-            placeholder="Enter your phone number"
+            placeholder="07..., 01..., or +254..."
           />
           <div className="text-center md:text-left">
             <span className="text-lg font-medium block mb-2">Receive STK Push:</span>
@@ -56,6 +100,9 @@ const Payment = () => {
             >
               Send
             </button>
+            {message && (
+              <p className="mt-4 text-center text-sm text-amber-400">{message}</p>
+            )}
           </div>
         </div>
       </div>
