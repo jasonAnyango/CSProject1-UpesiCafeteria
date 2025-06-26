@@ -7,6 +7,7 @@ import menuRoutes from './routes/menuRoutes.js'; // for menu routes
 import orderRoutes from './routes/orderRoutes.js'; // for order routes 
 import deliveryLocationRoutes from './routes/deliveryLocationRoutes.js'; // for delivery location routes
 import resetPasswordRoutes from './routes/resetPasswordRoutes.js'; // for password reset routes
+import adminRoutes from './routes/adminRoutes.js'; // for admin routes
 import { stkPush } from './mpesa/mpesa.js';
 
 const app = express();
@@ -37,5 +38,6 @@ app.use('/api/auth', resetPasswordRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/deliveryLocation', deliveryLocationRoutes);
+app.use('/api/admin', adminRoutes);
 
 export default app;

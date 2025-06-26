@@ -22,7 +22,7 @@ const ItemDetail = () => {
         text: "Please login to add this item to your cart",
         icon: "warning"
       })
-      navigate('/login')
+      return navigate('/login')
     }
     // Add the item to cart
     addToCart({ name, image_url, description, price})

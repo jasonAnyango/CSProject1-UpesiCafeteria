@@ -73,7 +73,7 @@ const Signup = () => {
               <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full p-3 border rounded-md" />
                 {/* Submit button */}
-              <button type="submit" className="w-full bg-amber-800 text-white py-3 rounded-md font-semibold">
+              <button type="submit" className="w-full bg-amber-800 text-white py-3 rounded-md font-semibold hover:cursor-pointer">
                 Sign Up
               </button>
               <p className="text-center text-sm text-white">
