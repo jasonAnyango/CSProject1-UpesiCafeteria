@@ -25,10 +25,25 @@ const Navbar = () => {
         // When logged in: 
         <>
           <span className='self-center font-medium'>Hi, {user.name.split(' ')[0]}</span>
-          <Link to='/myCart' className='flex items-center gap-2 bg-amber-800 text-gray-900 px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
+          {/* If user is a customer, show the cart icon */}
+          {user.role === 'Customer' && (
+            <Link to='/myCart' className='flex items-center gap-2 bg-amber-800 text-gray-900 px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
             <img src={shoppingCartIcon} alt="Cart Icon" />
             <span className='text-white font-bold'>My Cart</span>
           </Link>
+          )}
+          {/* If user is an admin, show the admin dashboard link */}
+          {user.role === 'Administrator' && (
+            <Link to='/admin' className='bg-amber-800 text-gray-900 px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
+              Admin Dashboard
+            </Link>
+          )}
+          {/* If user is a staff member, show the staff dashboard link */}
+          {user.role === 'Staff' && (
+            <Link to='/staff-dashboard' className='bg-amber-800 text-gray-900 px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
+              Staff Dashboard
+            </Link>
+          )}
           <button onClick={logout}
           className='bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
             Logout

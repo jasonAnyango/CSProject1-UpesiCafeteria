@@ -37,7 +37,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/auth', resetPasswordRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/order', orderRoutes);
-app.use('/api/deliveryLocation', deliveryLocationRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/admin', deliveryLocationRoutes);
 
 export default app;

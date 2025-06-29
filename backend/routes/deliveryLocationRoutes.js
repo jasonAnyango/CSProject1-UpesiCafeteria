@@ -4,12 +4,12 @@ import { getDeliveryLocations, addDeliveryLocation, updateDeliveryLocation, dele
 const router = express.Router();
 
 // Get all delivery locations
-router.get('/', getDeliveryLocations);
+router.get('/deliveryLocation', getDeliveryLocations);
 // Create a new delivery location
-router.post('/', addDeliveryLocation);
+router.post('/deliveryLocation', addDeliveryLocation);
 // Update an existing delivery location
-router.put('/:id', updateDeliveryLocation);
+router.put('/deliveryLocation/:id', updateDeliveryLocation);
 // Delete a delivery location
-router.delete('/:id', deleteDeliveryLocation);
+router.delete('/deliveryLocation/:id', deleteDeliveryLocation);
 
 export default router;

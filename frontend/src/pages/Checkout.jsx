@@ -1,24 +1,37 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const Checkout = () => {
   const { cartItems } = useCart();
   const [location, setLocation] = useState('');
+  const [locations, setLocations] = useState([]);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const subtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  // Fetch delivery locations
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/admin/deliveryLocation')
+      .then(res => {
+        setLocations(res.data?.data || []);
+      })
+      .catch(err => {
+        console.error('❌ Error fetching locations:', err);
+        setError('Failed to load delivery locations');
+      });
+  }, []);
 
   const handleProceedToPayment = () => {
     if (!location) {
       alert('Please select a delivery location.');
       return;
     }
-     localStorage.setItem('cartTotal', subtotal);
-     localStorage.setItem('deliveryLocation', location);
-
+    localStorage.setItem('cartTotal', subtotal);
+    localStorage.setItem('deliveryLocation', location);
     navigate('/payment');
   };
 
@@ -36,17 +49,18 @@ const Checkout = () => {
         <div className="flex-1 space-y-6">
           <div className="bg-gray-800 p-6 rounded-lg text-white">
             <label className="block mb-2 font-semibold">Pick Delivery Location</label>
+            {error && <p className="text-red-400 mb-2">{error}</p>}
             <select
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               className="w-full p-3 rounded bg-gray-700 text-white"
             >
               <option value="">Select location</option>
-              <option value="MSB">MSB</option>
-              <option value="STMB">STMB</option>
-              <option value="Oval Building">Oval Building</option>
-              <option value="Central Building">Central Building</option>
-              <option value="Library">Library</option>
+              {locations.map(loc => (
+                <option key={loc._id} value={loc._id}>
+                  {loc.name}
+                </option>
+              ))}
             </select>
           </div>
 

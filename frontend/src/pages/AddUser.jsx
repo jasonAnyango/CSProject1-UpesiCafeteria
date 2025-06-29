@@ -10,7 +10,7 @@ const AddUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/admin/user', form);
+      await axios.post('http://localhost:5000/api/admin/users', form);
       Swal.fire('Success', 'User created successfully', 'success');
     } catch (err) {
       Swal.fire('Error', err.response?.data?.message || 'Something went wrong', 'error');

@@ -14,6 +14,7 @@ import AdminDashboard from "./pages/AdminDashboard.jsx"
 import UserManagement from "./pages/UserManagement.jsx"
 import AddUser from "./pages/AddUser.jsx"
 import AdminAnalytics from "./pages/AdminAnalytics.jsx"
+import AdminDeliveryLocations from "./pages/AdminDeliveryLocations.jsx"
 import { AnimatePresence } from 'framer-motion'
 import {Routes, Route, useLocation} from 'react-router-dom'
 import ResetPassword from "./pages/ResetPassword.jsx"
@@ -24,7 +25,7 @@ const App = () => {
   return (
       <>
         <Navbar />
-        <div className="py-10"></div>
+        <div className="py-5"></div>
         <AnimatePresence>
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />}></Route>
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/admin/users" element={<UserManagement />}></Route>
             <Route path="/admin/users/add" element={<AddUser />}></Route>
             <Route path="/admin/analytics" element={<AdminAnalytics />}></Route>
+            <Route path="/admin/deliveryLocation" element={<AdminDeliveryLocations />}></Route>
           </Routes>
         </AnimatePresence>
       </>

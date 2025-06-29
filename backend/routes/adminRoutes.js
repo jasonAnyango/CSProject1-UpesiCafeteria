@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, addUser, deleteUser } from '../controllers/adminController.js';
+import { getUsers, addUser, deleteUser, getAnalytics } from '../controllers/adminController.js';
 
 const router = express.Router();
 
@@ -9,5 +9,8 @@ router.get('/users', getUsers);
 router.post('/users', addUser);
 // delete a user
 router.delete('/users/:id', deleteUser);
+
+// Analytics routes
+router.get('/analytics', getAnalytics);
 
 export default router;

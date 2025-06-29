@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import Order from '../models/Order.js';
 
 // Get all users
 export const getUsers = async (req, res) => {
@@ -56,3 +57,30 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+// Get analytics summary
+export const getAnalytics = async (req, res) => {
+    try {
+        const totalUsers = await User.countDocuments();
+        const totalOrders = await Order.countDocuments();
+        const revenueResult = await Order.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalRevenue: { $sum: "$total_amount" }
+                }
+            }
+        ]);
+
+        const revenue = revenueResult[0]?.totalRevenue || 0;
+
+        res.status(200).json({
+            totalUsers,
+            totalOrders,
+            revenue
+        });
+    } catch (error) {
+        console.error('Error fetching analytics:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

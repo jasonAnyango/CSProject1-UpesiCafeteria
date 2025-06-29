@@ -34,8 +34,15 @@ const Login = () => {
                 icon: "success"
             })
             setUser(response.data.user) // Set user in context
-            // Redirect to menu page
-            navigate('/menu')
+            console.log(response.data.user.role)
+            // If the user is an admin, redirect to the admin dashboard
+            if (response.data.user.role === 'Administrator') {
+                navigate('/admin');
+            } else if (response.data.user.role === 'Staff') {
+                navigate('/staff-dashboard'); // Redirect to staff dashboard if needed
+            } else {
+                navigate('/menu'); // Redirect to menu for regular users
+            }
         } catch (error) {
             Swal.fire({
                 title: "Login Failed",
