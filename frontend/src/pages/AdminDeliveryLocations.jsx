@@ -30,7 +30,9 @@ const AdminDeliveryLocations = () => {
 
   const addLocation = async (e) => {
     e.preventDefault();
-    if (!form.name.trim()) return;
+    if (!form.name.trim()) {
+      return;
+    }
 
     try {
       await axios.post('http://localhost:5000/api/admin/deliveryLocation', form);
@@ -43,7 +45,9 @@ const AdminDeliveryLocations = () => {
   };
 
   const deleteLocation = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this location?')) return;
+    if (!window.confirm('Are you sure you want to delete this location?')) {
+      return;
+    }
     try {
       await axios.delete(`http://localhost:5000/api/admin/deliveryLocation${id}`);
       fetchLocations();

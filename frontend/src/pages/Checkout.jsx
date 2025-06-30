@@ -27,11 +27,20 @@ const Checkout = () => {
 
   const handleProceedToPayment = () => {
     if (!location) {
-      alert('Please select a delivery location.');
+      // Alert the user if no location is selected
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please select a delivery location.',
+        confirmButtonText: 'OK'
+      })
       return;
     }
+    // Save cart total, cart items and delivery location to localStorage
     localStorage.setItem('cartTotal', subtotal);
     localStorage.setItem('deliveryLocation', location);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    // Navigate to payment page
     navigate('/payment');
   };
 
