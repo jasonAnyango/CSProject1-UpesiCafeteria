@@ -7,10 +7,11 @@ import ItemDetail from "./pages/ItemDetail.jsx"
 import MyCart from "./pages/MyCart.jsx"
 import Checkout from "./pages/Checkout.jsx"
 import Payment from "./pages/Payment.jsx"
+import MyOrders from "./pages/MyOrders.jsx"
+import Administrator from "./pages/Administrator.jsx"
 import Verify from "./pages/Verify.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 import VerifyResetOtp from "./pages/VerifyResetOtp.jsx"
-import AdminDashboard from "./pages/AdminDashboard.jsx"
 import UserManagement from "./pages/UserManagement.jsx"
 import AddUser from "./pages/AddUser.jsx"
 import AdminAnalytics from "./pages/AdminAnalytics.jsx"
@@ -40,7 +41,8 @@ const App = () => {
             <Route path="/myCart" element={<MyCart/>}></Route>    
             <Route path="/checkout" element={<Checkout/>}></Route>    
             <Route path="/payment" element={<Payment/>}></Route>    
-            <Route path="/admin" element={<AdminDashboard />}></Route>
+            <Route path="/myorder" element={<MyOrders/>}></Route>    
+            <Route path="/administrator" element={<Administrator/>}></Route>    
             <Route path="/admin/users" element={<UserManagement />}></Route>
             <Route path="/admin/users/add" element={<AddUser />}></Route>
             <Route path="/admin/analytics" element={<AdminAnalytics />}></Route>
