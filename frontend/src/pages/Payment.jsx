@@ -20,12 +20,8 @@ const Payment = () => {
   }, []);
 
   const validatePhone = (number) => {
-    if ((number.startsWith('07') || number.startsWith('01')) && number.length === 10) {
-      return true;
-    }
-    if (number.startsWith('+254') && number.length === 13) {
-      return true;
-    }
+    if ((number.startsWith('07') || number.startsWith('01')) && number.length === 10) return true;
+    if (number.startsWith('+254') && number.length === 13) return true;
     return false;
   };
 
@@ -52,34 +48,15 @@ const Payment = () => {
 
     try {
       const formattedPhone = formatPhone(phone);
-      const deliveryLocation = localStorage.getItem('deliveryLocation');
-      const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-
       const res = await axios.post('http://localhost:5000/api/mpesa/pay', {
         phone: formattedPhone,
-        amount: Number(amount)
+        amount,
       });
 
       if (res.data.ResponseCode === '0') {
         setMessage('✅ STK Push sent! Check your phone and enter your M-Pesa PIN.');
-        // Send order details to the server
-        await axios.post('http://localhost:5000/api/orders/place', {
-          customer_id: user._id, // Assuming user ID is available in context or state
-          items: cartItems.map(item => ({
-            menuItem_id: item._id,
-            quantity: item.quantity
-          })),
-          deliveryLocation_id: deliveryLocation,
-          totalAmount: Number(amount),
-        })
-
-        // clear storage
-        localStorage.removeItem('cartItems');
         localStorage.removeItem('cartTotal');
         localStorage.removeItem('deliveryLocation');
-
-        // Set message for successful order
-        setMessage('✅ Order placed successfully! Thank you for your purchase.');
       } else {
         setMessage(`❌ Failed: ${res.data.ResponseDescription}`);
       }
