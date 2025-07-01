@@ -27,6 +27,7 @@ const Login = () => {
             localStorage.setItem('token', response.data.token);
             // Store user information in localStorage
             localStorage.setItem('user', JSON.stringify(response.data.user))
+            console.log(response.data.user)
 
             Swal.fire({
                 title: "Login Successful",
@@ -37,9 +38,9 @@ const Login = () => {
             console.log(response.data.user.role)
             // If the user is an admin, redirect to the admin dashboard
             if (response.data.user.role === 'Administrator') {
-                navigate('/admin');
+                navigate('/administrator'); // Redirect to admin dashboard
             } else if (response.data.user.role === 'Staff') {
-                navigate('/staff-dashboard'); // Redirect to staff dashboard if needed
+                navigate('/staff'); // Redirect to staff dashboard if needed
             } else {
                 navigate('/menu'); // Redirect to menu for regular users
             }
