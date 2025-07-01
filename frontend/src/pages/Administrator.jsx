@@ -1,5 +1,6 @@
 // src/pages/AdminDashboard.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   PieChart,
   Pie,
@@ -28,38 +29,6 @@ const trafficData = [
 
 const COLORS = ['#F59E0B', '#10B981', '#3B82F6', '#EF4444'];
 
-const salesDataSamples = {
-  Daily: [
-    { name: 'Mon', sales: 1200 },
-    { name: 'Tue', sales: 900 },
-    { name: 'Wed', sales: 1400 },
-    { name: 'Thu', sales: 1000 },
-    { name: 'Fri', sales: 1600 },
-    { name: 'Sat', sales: 800 },
-    { name: 'Sun', sales: 700 },
-  ],
-  Weekly: [
-    { name: 'W1', sales: 6500 },
-    { name: 'W2', sales: 7200 },
-    { name: 'W3', sales: 8100 },
-    { name: 'W4', sales: 7900 },
-  ],
-  Yearly: [
-    { name: 'Jan', sales: 28000 },
-    { name: 'Feb', sales: 31000 },
-    { name: 'Mar', sales: 34000 },
-    { name: 'Apr', sales: 33000 },
-    { name: 'May', sales: 35500 },
-    { name: 'Jun', sales: 37000 },
-    { name: 'Jul', sales: 39000 },
-    { name: 'Aug', sales: 40000 },
-    { name: 'Sep', sales: 38000 },
-    { name: 'Oct', sales: 36000 },
-    { name: 'Nov', sales: 41000 },
-    { name: 'Dec', sales: 45000 },
-  ],
-};
-
 const analytics = [
   { label: 'Page Views', value: '24.6K', icon: <GaugeCircle className="w-5 h-5" /> },
   { label: 'Revenue', value: 'KES 92,450', icon: <BarChart2 className="w-5 h-5" /> },
@@ -74,12 +43,31 @@ const recentActivities = [
   'Resolved ticket #453 – Order delay',
 ];
 
-const Administrator = () => {
-  const [range, setRange] = useState('Daily');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const currentMonthEarnings = 'KES 92,450';
-  const currentMonthSales = '1,325';
+
+const Administrator = () => {
+  const [range, setRange] = useState('daily');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [stats, setStats] = useState({});
+  const [salesData, setSalesData] = useState([]);
+  
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/admin/sales?range=${range}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log("Sales data fetched:", data);
+        setSalesData(data);
+      })
+      .catch(err => console.error("Failed to fetch sales data", err));
+  }, [range]);
+  
+  useEffect(() => {
+    fetch('http://localhost:5000/api/admin/stats')
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(err => console.error("Failed to fetch quick stats", err));
+  }, []);
+
 
   return (
     <div className="min-h-screen flex bg-gray-900 text-white mt-5">
@@ -95,9 +83,9 @@ const Administrator = () => {
           <a href="#dashboard" className="flex items-center gap-3 text-amber-500 font-semibold">
             <GaugeCircle className="w-5 h-5" />{sidebarOpen && 'Dashboard'}
           </a>
-          <a href="#users" className="flex items-center gap-3 hover:text-amber-500">
+          <Link to='/admin/users' className="flex items-center gap-3 hover:text-amber-500">
             <Users2 className="w-5 h-5" />{sidebarOpen && 'Users'}
-          </a>
+          </Link>
           <a href="#notifications" className="flex items-center gap-3 hover:text-amber-500">
             <Bell className="w-5 h-5" />{sidebarOpen && 'Notifications'}
           </a>
@@ -112,9 +100,13 @@ const Administrator = () => {
         {/* Top KPIs */}
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-gray-800 p-6 rounded-lg space-y-4">
-            <h2 className="text-4xl font-bold">{currentMonthEarnings}</h2>
+            <h2 className="text-4xl font-bold">
+              {stats?.revenue?.toLocaleString('en-KE', { style: 'currency', currency: 'KES' }) || 'KES 0'}
+            </h2>
             <p className="text-gray-400">Current Month Earnings</p>
-            <h2 className="text-3xl font-bold">{currentMonthSales}</h2>
+            <h2 className="text-3xl font-bold">
+              {stats?.totalSales?.toLocaleString() || '0'}
+            </h2>
             <p className="text-gray-400">Current Month Sales</p>
           </div>
 
@@ -126,16 +118,17 @@ const Administrator = () => {
                 onChange={(e) => setRange(e.target.value)}
                 className="bg-gray-700 p-1 rounded"
               >
-                <option>Daily</option>
-                <option>Weekly</option>
-                <option>Yearly</option>
+                <option value={'daily'}>Daily</option>
+                <option value={'weekly'}>Weekly</option>
+                <option value={'yearly'}>Yearly</option>
               </select>
             </div>
             <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={salesDataSamples[range]}>
+              <LineChart data={salesData}>
                 <XAxis dataKey="name" stroke="#888" />
                 <YAxis stroke="#888" />
                 <Tooltip
+                  formatter={(value) => `KES ${value.toLocaleString()}`}
                   contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151' }}
                   labelClassName="text-white"
                   itemStyle={{ color: '#FBBF24' }}
@@ -173,17 +166,28 @@ const Administrator = () => {
         </div>
 
         {/* Quick Analytics */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {analytics.map((a, idx) => (
-            <div key={idx} className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
-              <div className="p-2 bg-gray-700 rounded-full">{a.icon}</div>
-              <div>
-                <h4 className="text-lg font-semibold">{a.value}</h4>
-                <p className="text-gray-400 text-sm">{a.label}</p>
-              </div>
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
+            <div className="p-2 bg-gray-700 rounded-full">
+              <BarChart2 className="w-5 h-5" />
             </div>
-          ))}
+            <div>
+              <h4 className="text-lg font-semibold">{stats?.revenue?.toLocaleString('en-KE', { style: 'currency', currency: 'KES' }) || 'KES 0'}</h4>
+              <p className="text-gray-400 text-sm">Revenue</p>
+            </div>
+          </div>
+
+          <div className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
+            <div className="p-2 bg-gray-700 rounded-full">
+              <Users2 className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">{stats?.newUsers || 0}</h4>
+              <p className="text-gray-400 text-sm">New Users</p>
+            </div>
+          </div>
         </div>
+
 
         {/* Recent Activities */}
         <div className="bg-gray-800 p-6 rounded-lg">

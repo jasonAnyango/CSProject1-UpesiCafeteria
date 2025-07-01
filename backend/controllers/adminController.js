@@ -58,29 +58,128 @@ export const deleteUser = async (req, res) => {
     }
 }
 
-// Get analytics summary
-export const getAnalytics = async (req, res) => {
-    try {
-        const totalUsers = await User.countDocuments();
-        const totalOrders = await Order.countDocuments();
-        const revenueResult = await Order.aggregate([
-            {
-                $group: {
-                    _id: null,
-                    totalRevenue: { $sum: "$total_amount" }
-                }
-            }
-        ]);
+// Helper function to get start of the month for analytics
+const getMonthStart = () => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+}
 
-        const revenue = revenueResult[0]?.totalRevenue || 0;
+// Monthly revenue
+export const getMonthlyRevenue = async (req, res) => {
+    try {
+        const monthStart = getMonthStart();
+
+        const orders = await Order.find({
+            created_at: { $gte: monthStart }
+        });
+
+        const totalRevenue = orders.reduce((sum, order) => sum + order.total_amount, 0);
+        const totalSales = orders.length;
 
         res.status(200).json({
-            totalUsers,
-            totalOrders,
-            revenue
-        });
+            totalRevenue,
+            totalSales
+        })
     } catch (error) {
-        console.error('Error fetching analytics:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error('Error fetching monthly revenue:', error);
+        res.status(500).json({ message: 'Error fetching monthly revenue' });
     }
+}
+
+// Sales over time
+export const getSalesOverTime = async (req, res) => {
+  const range = req.query.range || 'daily';
+
+  try {
+    const now = new Date();
+    let match = {};
+    let dateFormat;
+    let labelMap = [];
+
+    if (range === 'daily') {
+      match = {
+        created_at: {
+          $gte: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6),
+        },
+      };
+      dateFormat = '%w'; // 0 (Sun) - 6 (Sat)
+      labelMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    } else if (range === 'weekly') {
+      match = {
+        created_at: {
+          $gte: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 28),
+        },
+      };
+      dateFormat = '%U'; // Week number (01-53)
+    } else if (range === 'yearly') {
+      match = {
+        created_at: {
+          $gte: new Date(now.getFullYear(), 0, 1),
+        },
+      };
+      dateFormat = '%m'; // Month number: 01 - 12
+      labelMap = [
+        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      ];
+    } else {
+      return res.status(400).json({ error: 'Invalid range' });
+    }
+
+    const result = await Order.aggregate([
+      { $match: match },
+      {
+        $group: {
+          _id: { $dateToString: { format: dateFormat, date: "$created_at" } },
+          totalSales: { $sum: "$total_amount" },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
+    const formatted = result.map(item => {
+      let name;
+      if (range === 'daily') {
+        const index = parseInt(item._id, 10);
+        name = labelMap[index];
+      } else if (range === 'yearly') {
+        const index = parseInt(item._id, 10) - 1;
+        name = labelMap[index];
+      } else {
+        name = `W${item._id}`;
+      }
+
+      return { name, sales: item.totalSales };
+    });
+
+    res.status(200).json(formatted);
+  } catch (err) {
+    console.error("Error in getSalesOverTime:", err);
+    res.status(500).json({ error: "Server error fetching sales data" });
+  }
+};
+
+// Quick stats for dashboard
+export const getQuickStats = async (req, res) => {
+  try {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    // Revenue this month
+    const orders = await Order.find({ created_at: { $gte: monthStart } });
+    const totalRevenue = orders.reduce((sum, order) => sum + order.total_amount, 0);
+    const totalSales = orders.length;
+
+    // New users this month
+    const newUsers = await User.countDocuments({ created_at: { $gte: monthStart } });
+
+    res.status(200).json({
+      revenue: totalRevenue,
+      newUsers,
+      totalSales,
+    });
+  } catch (err) {
+    console.error("Error in getQuickStats:", err);
+    res.status(500).json({ error: "Server error fetching stats" });
+  }
 };

@@ -4,7 +4,7 @@ import Order from "../models/Order.js";
 export const placeOrder = async (req, res) => {
     try {
         // Grab the order details from the request body
-        const { customer_id, items, delivery_location_id, total_amount } = req.body;
+        const { customer_name, items, deliveryLocation, total_amount } = req.body;
 
         // Check if the items array is empty
         if(!items || items.length === 0) {
@@ -13,10 +13,11 @@ export const placeOrder = async (req, res) => {
 
         // Create a new order document
         const newOrder = new Order({
-            customer_id: customer_id,
+            customer_name: customer_name,
             items: items,
-            delivery_location_id: delivery_location_id,
-            total_amount: total_amount
+            deliveryLocation: deliveryLocation,
+            total_amount: total_amount,
+            status: 'pending' // Default status when order is placed
         });
 
         // Save the order to the database
@@ -51,7 +52,7 @@ export const getCustomerOrders = async (req, res) => {
 // Get all orders endpoint - Cafeteria Staff
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find().populate('items.menuItem_id').populate('customer_id');
+        const orders = await Order.find();
         res.status(200).json({
             message: "All orders retrieved successfully",
             orders: orders

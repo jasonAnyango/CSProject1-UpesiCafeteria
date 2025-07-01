@@ -1,16 +1,14 @@
 import mongoose from 'mongoose';
 
 const orderSchema = new mongoose.Schema({
-    customer_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+    customer_name: {
+        type: String,
         required: true
     },
     items : [
         {
-            menuItem_id: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'MenuItem',
+            menuItem_name: {
+                type: String,
                 required: true
             },
             quantity: {
@@ -20,9 +18,8 @@ const orderSchema = new mongoose.Schema({
             }
         }
     ],
-    deliveryLocation_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'DeliveryLocation',
+    deliveryLocation: {
+        type: String,
         required: true
     },
     total_amount: {
@@ -32,7 +29,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'preparing', 'out_for_delivery', 'delivered', 'cancelled'],
+        enum: ['pending', 'preparing', 'out for delivery', 'delivered', 'cancelled'],
         default: 'pending'
     },
     created_at: {
