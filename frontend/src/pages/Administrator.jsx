@@ -18,6 +18,7 @@ import {
   Bell,
   BarChart2,
   Menu,
+  MapPin
 } from 'lucide-react';
 
 const trafficData = [
@@ -80,18 +81,15 @@ const Administrator = () => {
           </button>
         </div>
         <nav className="space-y-6 mt-6">
-          <a href="#dashboard" className="flex items-center gap-3 text-amber-500 font-semibold">
+          <Link href="/administrator" className="flex items-center gap-3 text-amber-500 font-semibold">
             <GaugeCircle className="w-5 h-5" />{sidebarOpen && 'Dashboard'}
-          </a>
+          </Link>
           <Link to='/admin/users' className="flex items-center gap-3 hover:text-amber-500">
             <Users2 className="w-5 h-5" />{sidebarOpen && 'Users'}
           </Link>
-          <a href="#notifications" className="flex items-center gap-3 hover:text-amber-500">
-            <Bell className="w-5 h-5" />{sidebarOpen && 'Notifications'}
-          </a>
-          <a href="#reports" className="flex items-center gap-3 hover:text-amber-500">
-            <BarChart2 className="w-5 h-5" />{sidebarOpen && 'Reports'}
-          </a>
+          <Link to='/admin/deliveryLocation' className="flex items-center gap-3 hover:text-amber-500">
+            <MapPin className="w-5 h-5" />{sidebarOpen && 'Delivery Locations'}
+          </Link>
         </nav>
       </aside>
 
