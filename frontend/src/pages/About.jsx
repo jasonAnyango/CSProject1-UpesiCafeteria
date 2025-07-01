@@ -1,11 +1,10 @@
-// src/pages/About.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Heart, Star, Smile } from 'lucide-react';
 import heroImage from '../assets/homeImage8.png'; 
 import chefOne from '../assets/mj.jpg'  
-import chefTwo from '../assets/mj.jpg'   // change to your hero img
+import chefTwo from '../assets/mj.jpg' 
         
 const About = () => {
   return (
@@ -16,7 +15,6 @@ const About = () => {
       transition={{ duration: 0.6 }}
       className="bg-gray-900 text-white"
     >
-      {/* ===== Hero ===== */}
       <div
         className="h-[70vh] bg-cover bg-center relative flex items-center justify-center text-center"
         style={{
@@ -29,13 +27,10 @@ const About = () => {
           ABOUT&nbsp;US
         </h1>
       </div>
-
-      {/* ===== Our Values ===== */}
         <section className="py-20 px-6 md:px-16">
         <h2 className="text-4xl font-bold text-center mb-12">Our&nbsp;Values</h2>
 
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16"/>
-          {/* Value Cards - Horizontal */}
           <div className="flex flex-row flex-wrap justify-center gap-6 md:w-full mb-5">
             <div className="bg-gray-800 p-6 rounded-xl shadow-md flex items-start gap-4 w-80">
               <Heart className="w-10 h-10 text-amber-500 mt-1" />
@@ -84,12 +79,11 @@ const About = () => {
         </div>
       </section>
 
-      {/* ===== Meet the Team ===== */}
       <section className="py-20 px-6 md:px-16 bg-gray-800">
         <h2 className="text-4xl font-bold text-center mb-12">Meet&nbsp;Our&nbsp;Chefs</h2>
 
         <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-10">
-          {/* Chef 1 */}
+          
           <div className="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
             <img src={chefOne} alt="Chef Jane" className="w-48 h-48 object-cover rounded-full mx-auto mb-4" />
             <h3 className="text-2xl font-semibold mb-1">Chef&nbsp;Jane&nbsp;W.</h3>
@@ -99,7 +93,6 @@ const About = () => {
             </p>
           </div>
 
-          {/* Chef 2 */}
           <div className="bg-gray-700 p-6 rounded-lg text-center shadow-lg">
             <img src={chefTwo} alt="Chef Mark" className="w-48 h-48 object-cover rounded-full mx-auto mb-4" />
             <h3 className="text-2xl font-semibold mb-1">Chef&nbsp;Mark&nbsp;K.</h3>
@@ -110,7 +103,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* CTA back to menu */}
         <div className="text-center mt-16">
           <Link to="/menu">
             <button className="bg-amber-800 hover:bg-amber-900 text-white font-semibold px-6 py-3 rounded-lg">

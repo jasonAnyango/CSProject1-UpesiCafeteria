@@ -1,4 +1,4 @@
-// src/pages/Contact.jsx
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Quote } from 'lucide-react';
@@ -13,8 +13,7 @@ const Contact = () => {
       transition={{ duration: 0.5 }}
       className="text-white"
     >
-      {/* Hero */}
-      {/* ===== Hero (with centered heading + tagline) ===== */}
+      
 <div
   className="h-[70vh] bg-cover bg-center relative flex items-center justify-center text-center px-4"
   style={{
@@ -22,10 +21,10 @@ const Contact = () => {
     backgroundBlendMode: 'darken',
   }}
 >
-  {/* Overlay */}
+  
   <div className="absolute inset-0 bg-black opacity-50 z-0" />
   
-  {/* Content */}
+  
   <div className="relative z-10 flex flex-col items-center max-w-3xl">
     <h1 className="text-5xl md:text-7xl font-extrabold drop-shadow-xl mb-4">
       CONTACT US
@@ -38,10 +37,10 @@ const Contact = () => {
 
       
 
-      {/* Contact Info + Form */}
+      
       <section className="py-20 px-6 md:px-16 bg-gray-900">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-14 items-start">
-          {/* Left – Info */}
+          
           <div className="space-y-10">
             <div className="flex items-start gap-4">
               <Mail className="w-6 h-6 text-amber-500 mt-1" />
@@ -66,7 +65,7 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Right – Form */}
+          
           <form className="space-y-6 w-full">
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex flex-col">
@@ -122,7 +121,6 @@ const Contact = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
       <section className="py-20 px-6 md:px-16 bg-gray-800">
         <h2 className="text-3xl font-bold text-center mb-12">What Our Clients Say</h2>
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
