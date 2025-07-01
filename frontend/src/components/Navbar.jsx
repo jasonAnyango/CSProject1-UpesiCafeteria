@@ -16,8 +16,8 @@ const Navbar = () => {
       <div className="hidden md:flex gap-8">
         <a href="/" className="hover:underline">Home</a>
         <a href="/menu" className="hover:underline">Menu</a>
-        <a href="/#about" className="hover:underline">About Us</a>
-        <a href="#contact" className="hover:underline">Contact</a>
+        <a href="/about" className="hover:underline">About Us</a>
+        <a href="/contact" className="hover:underline">Contact</a>
       </div>
       <div className="flex gap-4 mr-2 align-bottom justify-center">
         {/* Check if user is logged in */}

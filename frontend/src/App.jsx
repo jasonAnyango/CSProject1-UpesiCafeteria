@@ -1,14 +1,18 @@
 import Home from "./pages/Home.jsx"
 import Navbar from "./components/Navbar.jsx"
+import Footer from "./components/Footer.jsx"
 import Login from "./pages/Login.jsx"
 import Signup from "./pages/Signup.jsx"
 import Menu from "./pages/Menu.jsx"
+import About from "./pages/About.jsx"
+import Contact from "./pages/Contact.jsx"
 import ItemDetail from "./pages/ItemDetail.jsx"
 import MyCart from "./pages/MyCart.jsx"
 import Checkout from "./pages/Checkout.jsx"
 import Payment from "./pages/Payment.jsx"
 import MyOrders from "./pages/MyOrders.jsx"
 import Administrator from "./pages/Administrator.jsx"
+import StaffDashboard from "./pages/StaffDashboard.jsx"
 import Verify from "./pages/Verify.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 import VerifyResetOtp from "./pages/VerifyResetOtp.jsx"
@@ -37,18 +41,22 @@ const App = () => {
             <Route path="/verify-reset-otp" element={<VerifyResetOtp />}></Route>
             <Route path="/reset-password" element={<ResetPassword />}></Route>
             <Route path="/menu" element={<Menu />}></Route>
+            <Route path="/about" element={<About />}></Route>
+            <Route path="/contact" element={<Contact />}></Route>
             <Route path="/itemDetail" element={<ItemDetail />}></Route>    
             <Route path="/myCart" element={<MyCart/>}></Route>    
             <Route path="/checkout" element={<Checkout/>}></Route>    
             <Route path="/payment" element={<Payment/>}></Route>    
             <Route path="/myorder" element={<MyOrders/>}></Route>    
             <Route path="/administrator" element={<Administrator/>}></Route>    
+            <Route path="/staff" element={<StaffDashboard/>}></Route>    
             <Route path="/admin/users" element={<UserManagement />}></Route>
             <Route path="/admin/users/add" element={<AddUser />}></Route>
             <Route path="/admin/analytics" element={<AdminAnalytics />}></Route>
             <Route path="/admin/deliveryLocation" element={<AdminDeliveryLocations />}></Route>
           </Routes>
         </AnimatePresence>
+        <Footer />
       </>
   )
 }

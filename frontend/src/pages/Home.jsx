@@ -22,6 +22,7 @@ const Home = () => {
                 View Menu
               </button>
             </Link>
+        
         </div>
 
         <section id="about" className="py-20 px-6 md:px-16 bg-gray-900 text-white">
@@ -76,6 +77,7 @@ const Home = () => {
     </div>
   </div>
 </section>
+
 
     </motion.div>
   );
