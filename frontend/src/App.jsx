@@ -12,7 +12,6 @@ import Checkout from "./pages/Checkout.jsx"
 import Payment from "./pages/Payment.jsx"
 import MyOrders from "./pages/MyOrders.jsx"
 import Administrator from "./pages/Administrator.jsx"
-//import StaffDashboard from "./pages/StaffDashboard.jsx"
 import Verify from "./pages/Verify.jsx"
 import ForgotPassword from "./pages/ForgotPassword.jsx"
 import VerifyResetOtp from "./pages/VerifyResetOtp.jsx"
@@ -51,7 +50,7 @@ const App = () => {
             <Route path="/checkout" element={<Checkout/>}></Route>    
             <Route path="/payment" element={<Payment/>}></Route>    
             <Route path="/myorder" element={<MyOrders/>}></Route>    
-            <Route path="/administrator" element={<Administrator/>}></Route>    
+            <Route path="/admin" element={<Administrator/>}></Route>    
             <Route path="/staff" element={<StaffDashboard/>}></Route>    
             <Route path="/admin/users" element={<UserManagement />}></Route>
             <Route path="/admin/users/add" element={<AddUser />}></Route>

@@ -55,7 +55,7 @@ const AdminDeliveryLocations = () => {
   const deleteLocation = async (id) => {
     if (!window.confirm('Are you sure you want to delete this location?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/deliveryLocation${id}`);
+      await axios.delete(`http://localhost:5000/api/admin/deliveryLocation/${id}`);
       fetchLocations();
     } catch (err) {
       console.error(err);
@@ -89,7 +89,6 @@ const AdminDeliveryLocations = () => {
       {/* Main Content */}
       <main className="flex-1 p-6 md:p-10 space-y-10">
         <h1 className="text-3xl font-bold mb-6">📍 Manage Delivery Locations</h1>
-
         {/* Form */}
         <form
           onSubmit={addLocation}
@@ -118,7 +117,8 @@ const AdminDeliveryLocations = () => {
           >
             Add Location
           </button>
-          {error && <p className="text-red-400 mt-3">{error}</p>}
+          {error && <p className="text-red-400 mt-3">{error}</p>
+          }
         </form>
 
         {/* Location Cards */}
