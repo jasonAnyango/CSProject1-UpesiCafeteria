@@ -36,15 +36,18 @@ export const placeOrder = async (req, res) => {
 // Get customer orders endpoint
 export const getCustomerOrders = async (req, res) => {
     try {
-        const { customer_id } = req.params;
+        // Get customer name from request params
+        const { customer_name } = req.params;
 
-        const orders = await Order.find({ customer_id }).populate('items.menuItem_id');
+        // Find orders for the customer based on customer name
+        const orders = await Order.find({ customer_name: customer_name });
+
         res.status(200).json({
-            message: "Orders retrieved successfully",
+            message: "Customer orders retrieved successfully",
             orders: orders
         });
     } catch (error) {
-        console.error("Error retrieving orders:", error);
+        console.error("Error retrieving customer orders:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 }

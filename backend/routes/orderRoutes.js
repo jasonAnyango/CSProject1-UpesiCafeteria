@@ -4,7 +4,7 @@ import { placeOrder, getCustomerOrders, getAllOrders, updateOrderStatus } from '
 const router = express.Router();
 
 router.post('/place', placeOrder); // Place a new order
-router.get('/customer/:customer_id', getCustomerOrders); // Get orders for a specific customer
+router.get('/customer/:customer_name', getCustomerOrders); // Get orders for a specific customer
 router.get('/all', getAllOrders); // Get all orders for cafeteria staff
 router.put('/update/:id', updateOrderStatus); // Update order status by ID
 

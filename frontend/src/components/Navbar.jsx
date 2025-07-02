@@ -27,10 +27,16 @@ const Navbar = () => {
           <span className='self-center font-medium'>Hi, {user.name.split(' ')[0]}</span>
           {/* If user is a customer, show the cart icon */}
           {user.role === 'Customer' && (
-            <Link to='/myCart' className='flex items-center gap-2 bg-amber-800 text-gray-900 px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
+            <Link to='/myCart' className='flex items-center gap-2 bg-amber-800 text-white px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
             <img src={shoppingCartIcon} alt="Cart Icon" />
-            <span className='text-white font-bold'>My Cart</span>
-          </Link>
+            My Cart
+            </Link>
+          )}
+          {/* If user is a customer, show the my orders link */}
+          {user.role === 'Customer' && (
+            <Link to='/myorder' className='flex items-center bg-amber-800 text-white px-4 py-2 rounded-md font-semibold hover:cursor-pointer'>
+              My Orders
+            </Link>
           )}
           {/* If user is an admin, show the admin dashboard link */}
           {user.role === 'Administrator' && (
