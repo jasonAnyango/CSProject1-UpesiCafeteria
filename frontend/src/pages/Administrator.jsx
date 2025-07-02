@@ -1,4 +1,4 @@
-// src/pages/AdminDashboard.jsx
+import UserStatsChart from '../components/UserStatsChart';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -20,6 +20,7 @@ import {
   Menu,
   MapPin
 } from 'lucide-react';
+import RecentUsers from '../components/RecentUsers';
 
 const trafficData = [
   { name: 'Direct', value: 45 },
@@ -142,25 +143,11 @@ const Administrator = () => {
             </ResponsiveContainer>
           </div>
 
+          {/* Traffic Sources */}
           <div className="bg-gray-800 p-6 rounded-lg">
-            <h3 className="font-semibold mb-4">Traffic Sources</h3>
-            <ResponsiveContainer width="100%" height={200}>
-              <PieChart>
-                <Pie
-                  data={trafficData}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius={40}
-                  outerRadius={80}
-                  paddingAngle={5}
-                >
-                  {trafficData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
+            <UserStatsChart/>
           </div>
+
         </div>
 
         {/* Quick Analytics */}
@@ -189,12 +176,7 @@ const Administrator = () => {
 
         {/* Recent Activities */}
         <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-2xl font-semibold mb-4">Recent Activities</h3>
-          <ul className="list-disc ml-6 space-y-2 text-gray-300">
-            {recentActivities.map((act, i) => (
-              <li key={i}>{act}</li>
-            ))}
-          </ul>
+          <RecentUsers />
         </div>
       </main>
     </div>

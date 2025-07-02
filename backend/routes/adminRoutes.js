@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, addUser, deleteUser, getMonthlyRevenue, getSalesOverTime, getQuickStats } from '../controllers/adminController.js';
+import { getUsers, addUser, deleteUser, getMonthlyRevenue, getSalesOverTime, getQuickStats, getUserStats, getRecentUsers } from '../controllers/adminController.js';
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.delete('/users/:id', deleteUser);
 router.get('/revenue', getMonthlyRevenue); // Get monthly revenue
 router.get('/sales', getSalesOverTime); // Get sales over time
 router.get('/stats', getQuickStats); // Get sales over time
-
-
+router.get('/user-stats', getUserStats); // Get user stats
+router.get('/recent-users', getRecentUsers); // Get recent users
 
 export default router;

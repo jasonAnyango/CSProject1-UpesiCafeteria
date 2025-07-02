@@ -183,3 +183,45 @@ export const getQuickStats = async (req, res) => {
     res.status(500).json({ error: "Server error fetching stats" });
   }
 };
+
+export const getUserStats = async (req, res) => {
+  try {
+    // First get total users
+    const totalUsers = await User.countDocuments({role: 'Customer'});
+    
+    // Then get active users --> users that have placed an order 
+    const activeUsers = await Order.distinct('customer_name');
+
+    // Inactive users = total users - active users
+    const inactiveUsers = totalUsers - activeUsers.length;
+
+    // Respond with the stats
+    res.status(200).json({
+      totalUsers,
+      activeUsers: activeUsers.length,
+      inactiveUsers
+    });
+
+  } catch (error) {
+    console.error('Error fetching user stats:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
+export const getRecentUsers = async (req, res) => {
+  try {
+    const recentusers = await User.find({})
+    .sort({created_at: -1})
+    .limit(5)
+    .select('name email role created_at'); // Select only the fields we need
+    
+    // Respond with the recent users
+    res.status(200).json({
+      message: 'Recent users fetched successfully',
+      data: recentusers
+    })
+  } catch (error) {
+    console.error('Error fetching recent users:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
