@@ -17,13 +17,13 @@ import ForgotPassword from "./pages/ForgotPassword.jsx"
 import VerifyResetOtp from "./pages/VerifyResetOtp.jsx"
 import UserManagement from "./pages/UserManagement.jsx"
 import AddUser from "./pages/AddUser.jsx"
-import AdminAnalytics from "./pages/AdminAnalytics.jsx"
+
 import AdminDeliveryLocations from "./pages/AdminDeliveryLocations.jsx"
 import StaffDashboard from "./pages/StaffDashboard.jsx"
 import StaffOrders from "./pages/StaffOrders.jsx"
 import StaffMenu from "./pages/StaffMenu.jsx"
 import { AnimatePresence } from 'framer-motion'
-import {Routes, Route, useLocation} from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import ResetPassword from "./pages/ResetPassword.jsx"
 
 
@@ -54,7 +54,6 @@ const App = () => {
             <Route path="/staff" element={<StaffDashboard/>}></Route>    
             <Route path="/admin/users" element={<UserManagement />}></Route>
             <Route path="/admin/users/add" element={<AddUser />}></Route>
-            <Route path="/admin/analytics" element={<AdminAnalytics />}></Route>
             <Route path="/admin/deliveryLocation" element={<AdminDeliveryLocations />}></Route>
             <Route path="/staff" element={<StaffDashboard />}></Route>
             <Route path="/staff/orders" element={<StaffOrders />}></Route>

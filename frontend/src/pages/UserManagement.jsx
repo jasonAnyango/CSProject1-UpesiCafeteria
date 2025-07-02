@@ -56,7 +56,7 @@ const UserManagement = () => {
           </button>
         </div>
         <nav className="space-y-6 mt-6">
-          <Link to="/administrator" className="flex items-center gap-3 hover:text-amber-500">
+          <Link to="/admin" className="flex items-center gap-3 hover:text-amber-500">
             <GaugeCircle className="w-5 h-5" />{sidebarOpen && 'Dashboard'}
           </Link>
           <Link to="/admin/users" className="flex items-center gap-3 text-amber-500 font-semibold">
