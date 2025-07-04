@@ -11,7 +11,7 @@ import {
 
 const StaffDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const location = useLocation();           // <-- to detect current path
+  const location = useLocation();          
 
   /* helper to decide active style */
   const isActive = (path) => location.pathname === path;

@@ -20,6 +20,7 @@ import AddUser from "./pages/AddUser.jsx"
 
 import AdminDeliveryLocations from "./pages/AdminDeliveryLocations.jsx"
 import StaffDashboard from "./pages/StaffDashboard.jsx"
+import StaffDashboardHome from "./pages/staffDashboardHome.jsx"
 import StaffOrders from "./pages/StaffOrders.jsx"
 import StaffMenu from "./pages/StaffMenu.jsx"
 import { AnimatePresence } from 'framer-motion'
@@ -50,14 +51,18 @@ const App = () => {
             <Route path="/checkout" element={<Checkout/>}></Route>    
             <Route path="/payment" element={<Payment/>}></Route>    
             <Route path="/myorder" element={<MyOrders/>}></Route>    
-            <Route path="/admin" element={<Administrator/>}></Route>    
-            <Route path="/staff" element={<StaffDashboard/>}></Route>    
+            <Route path="/admin" element={<Administrator/>}></Route>  
+            <Route path="/admin/deliveryLocation" element={<AdminDeliveryLocations />}></Route> 
             <Route path="/admin/users" element={<UserManagement />}></Route>
-            <Route path="/admin/users/add" element={<AddUser />}></Route>
-            <Route path="/admin/deliveryLocation" element={<AdminDeliveryLocations />}></Route>
-            <Route path="/staff" element={<StaffDashboard />}></Route>
-            <Route path="/staff/orders" element={<StaffOrders />}></Route>
-            <Route path="/staff/menu" element={<StaffMenu />}></Route>
+            <Route path="/admin/users/add" element={<AddUser />}></Route> 
+            <Route path="/staff" element={<StaffDashboard />}>
+            {/* index ⇒ /staff  (dashboard analytics) */}
+            <Route index element={<StaffDashboardHome />} />
+          </Route>
+            {/* /staff/orders */}
+            <Route path="staff/orders" element={<StaffOrders />} />
+            {/* /staff/menu */}
+            <Route path="staff/menu" element={<StaffMenu />} />
           </Routes>
         </AnimatePresence>
         <Footer />
