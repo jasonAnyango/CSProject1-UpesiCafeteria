@@ -17,7 +17,11 @@ const MyCart = () => {
 
   const handleEmptyCart = () => {
     clearCart();
-    alert('Cart emptied.');
+    Swal.fire({
+      title: 'Cart Cleared',
+      text: 'Your cart has been cleared.',
+      icon: 'success'
+    });
     navigate('/menu');
   };
 

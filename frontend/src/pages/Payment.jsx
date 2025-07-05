@@ -55,6 +55,23 @@ const Payment = () => {
 
       if (res.data.ResponseCode === '0') {
         setMessage('✅ STK Push sent! Check your phone and enter your M-Pesa PIN.');
+        // Get order details from localStorage
+        const total_amount = localStorage.getItem('cartTotal');
+        const deliveryLocation = localStorage.getItem('deliveryLocation');
+        const customer_name = JSON.parse(localStorage.getItem('user')).name;
+        const orderItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+        console.log('Order items: ', orderItems[0].name)
+        // Send order details to backend
+        const response = await axios.post('http://localhost:5000/api/order/place', {
+          customer_name,
+          items: {
+            menuItem_name: orderItems[0].name,
+            quantity: orderItems[0].quantity
+          },
+          deliveryLocation,
+          total_amount,
+        });
+        console.log('Order placed successfully:', response.data);
         localStorage.removeItem('cartTotal');
         localStorage.removeItem('deliveryLocation');
       } else {

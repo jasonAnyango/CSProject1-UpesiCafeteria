@@ -57,7 +57,7 @@ const Checkout = () => {
             >
               <option value="">Select location</option>
               {locations.map(loc => (
-                <option key={loc._id} value={loc._id}>
+                <option key={loc._id} value={loc.name}>
                   {loc.name}
                 </option>
               ))}
