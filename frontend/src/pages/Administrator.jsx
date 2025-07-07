@@ -1,6 +1,6 @@
 import UserStatsChart from '../components/UserStatsChart';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   PieChart,
   Pie,
@@ -18,9 +18,11 @@ import {
   Bell,
   BarChart2,
   Menu,
-  MapPin
+  MapPin,
+  MessageCircle
 } from 'lucide-react';
 import RecentUsers from '../components/RecentUsers';
+import  FeedbackList from '../components/FeedbackList';
 
 const trafficData = [
   { name: 'Direct', value: 45 },
@@ -48,6 +50,8 @@ const recentActivities = [
 
 
 const Administrator = () => {
+  const location = useLocation();
+  const onFeedbackPage = location.pathname.includes('/admin/feedback');
   const [range, setRange] = useState('daily');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [stats, setStats] = useState({});
@@ -82,7 +86,7 @@ const Administrator = () => {
           </button>
         </div>
         <nav className="space-y-6 mt-6">
-          <Link href="/admin" className="flex items-center gap-3 text-amber-500 font-semibold">
+          <Link to="/admin" className="flex items-center gap-3 text-amber-500 font-semibold">
             <GaugeCircle className="w-5 h-5" />{sidebarOpen && 'Dashboard'}
           </Link>
           <Link to='/admin/users' className="flex items-center gap-3 hover:text-amber-500">
@@ -91,93 +95,119 @@ const Administrator = () => {
           <Link to='/admin/deliveryLocation' className="flex items-center gap-3 hover:text-amber-500">
             <MapPin className="w-5 h-5" />{sidebarOpen && 'Delivery Locations'}
           </Link>
+          <Link to="/admin/feedback" className="flex items-center gap-3 hover:text-amber-500">
+            <MessageCircle className="w-5 h-5" />
+            {sidebarOpen && 'Feedback'}
+          </Link>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10 space-y-10">
-        {/* Top KPIs */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-gray-800 p-6 rounded-lg space-y-4">
-            <h2 className="text-4xl font-bold">
-              {stats?.revenue?.toLocaleString('en-KE', { style: 'currency', currency: 'KES' }) || 'KES 0'}
-            </h2>
-            <p className="text-gray-400">Current Month Earnings</p>
-            <h2 className="text-3xl font-bold">
-              {stats?.totalSales?.toLocaleString() || '0'}
-            </h2>
-            <p className="text-gray-400">Current Month Sales</p>
-          </div>
-
+       <main className="flex-1 p-6 md:p-10 space-y-10">
+        {onFeedbackPage ? (
+          /* ── Feedback screen ── */
           <div className="bg-gray-800 p-6 rounded-lg">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold">Sales Overview</h3>
-              <select
-                value={range}
-                onChange={(e) => setRange(e.target.value)}
-                className="bg-gray-700 p-1 rounded"
-              >
-                <option value={'daily'}>Daily</option>
-                <option value={'weekly'}>Weekly</option>
-                <option value={'yearly'}>Yearly</option>
-              </select>
-            </div>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={salesData}>
-                <XAxis dataKey="name" stroke="#888" />
-                <YAxis stroke="#888" />
-                <Tooltip
-                  formatter={(value) => `KES ${value.toLocaleString()}`}
-                  contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151' }}
-                  labelClassName="text-white"
-                  itemStyle={{ color: '#FBBF24' }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="sales"
-                  stroke="#FBBF24"
-                  strokeWidth={3}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <h2 className="text-2xl font-bold mb-6">User Feedback</h2>
+            <FeedbackList />
           </div>
+        ) : (
+          /* ── Default dashboard ── */
+          <>
+            {/* Top KPIs */}
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-gray-800 p-6 rounded-lg space-y-4">
+                <h2 className="text-4xl font-bold">
+                  {stats?.revenue?.toLocaleString('en-KE', {
+                    style: 'currency',
+                    currency: 'KES',
+                  }) || 'KES 0'}
+                </h2>
+                <p className="text-gray-400">Current Month Earnings</p>
+                <h2 className="text-3xl font-bold">
+                  {stats?.totalSales?.toLocaleString() || '0'}
+                </h2>
+                <p className="text-gray-400">Current Month Sales</p>
+              </div>
 
-          {/* Traffic Sources */}
-          <div className="bg-gray-800 p-6 rounded-lg">
-            <UserStatsChart/>
-          </div>
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-semibold">Sales Overview</h3>
+                  <select
+                    value={range}
+                    onChange={(e) => setRange(e.target.value)}
+                    className="bg-gray-700 p-1 rounded"
+                  >
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
 
-        </div>
+                <ResponsiveContainer width="100%" height={200}>
+                  <LineChart data={salesData}>
+                    <XAxis dataKey="name" stroke="#888" />
+                    <YAxis stroke="#888" />
+                    <Tooltip
+                      formatter={(v) => `KES ${v.toLocaleString()}`}
+                      contentStyle={{
+                        backgroundColor: '#1F2937',
+                        borderColor: '#374151',
+                      }}
+                      labelClassName="text-white"
+                      itemStyle={{ color: '#FBBF24' }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="sales"
+                      stroke="#FBBF24"
+                      strokeWidth={3}
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
 
-        {/* Quick Analytics */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
-            <div className="p-2 bg-gray-700 rounded-full">
-              <BarChart2 className="w-5 h-5" />
+              <div className="bg-gray-800 p-6 rounded-lg">
+                <UserStatsChart />
+              </div>
             </div>
-            <div>
-              <h4 className="text-lg font-semibold">{stats?.revenue?.toLocaleString('en-KE', { style: 'currency', currency: 'KES' }) || 'KES 0'}</h4>
-              <p className="text-gray-400 text-sm">Revenue</p>
-            </div>
-          </div>
 
-          <div className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
-            <div className="p-2 bg-gray-700 rounded-full">
-              <Users2 className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold">{stats?.newUsers || 0}</h4>
-              <p className="text-gray-400 text-sm">New Users</p>
-            </div>
-          </div>
-        </div>
+            {/* Quick Analytics */}
+            <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
+                <div className="p-2 bg-gray-700 rounded-full">
+                  <BarChart2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold">
+                    {stats?.revenue?.toLocaleString('en-KE', {
+                      style: 'currency',
+                      currency: 'KES',
+                    }) || 'KES 0'}
+                  </h4>
+                  <p className="text-gray-400 text-sm">Revenue</p>
+                </div>
+              </div>
 
+              <div className="bg-gray-800 p-4 rounded-lg flex items-center gap-4">
+                <div className="p-2 bg-gray-700 rounded-full">
+                  <Users2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold">
+                    {stats?.newUsers || 0}
+                  </h4>
+                  <p className="text-gray-400 text-sm">New Users</p>
+                </div>
+              </div>
+            </div>
 
-        {/* Recent Activities */}
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <RecentUsers />
-        </div>
+            {/* Recent Activities */}
+            <div className="bg-gray-800 p-6 rounded-lg">
+              <RecentUsers />
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

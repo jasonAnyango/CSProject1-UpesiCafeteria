@@ -8,7 +8,7 @@ import {
 } from '../controllers/feedbackController.js';
 
 const router = Router();
-router.post('/feedback', submitFeedback);
+router.post('/', submitFeedback);
 router.get('/', getAllFeedback);
 router.get('/user/:email', getUserFeedback);
 router.patch('/:id', updateFeedbackStatus);

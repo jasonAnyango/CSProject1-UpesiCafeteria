@@ -43,17 +43,10 @@ export const getUserFeedback = async (req,res) => {
 };
 
 export const getAllFeedback = async (req,res) => {
-    try {
-        const feedback = await Feedback.find();
-
-        res.status(200).json({
-            message : "All feedback retrieved successfully",
-            feebdack
-        });
-    } catch (error){
-        console.error("Error retrieving all feedback:", error);
-        res.status(500).json({message : "Internal server error"});
-    }
+   try{
+    const notes = await Feedback.find().sort({ createdAt:-1 });
+    res.json(notes);
+  }catch(err){ res.status(500).json({ message:'Server error' }); }
 };
 
 export const updateFeedbackStatus = async (req, res) => {

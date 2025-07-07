@@ -45,6 +45,6 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/admin', deliveryLocationRoutes);
 
 app.use('/api/staff', staffRoutes);
-app.use('/api', feedbackRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 export default app;
