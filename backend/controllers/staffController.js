@@ -31,8 +31,9 @@ export const getTodaySummary = async (req, res) => {
       delivered: 0,
     };
     todayOrders.forEach((o) => {
-      if (statusCountsToday[o.status] !== undefined) {
-        statusCountsToday[o.status] += 1;
+      const status = o.status.toLowerCase().trim();;
+      if (statusCountsToday[status] !== undefined) {
+        statusCountsToday[status] += 1;
       }
     });
 
@@ -114,7 +115,8 @@ export const getOrderTrend = async (req, res) => {
       const d = new Date(startUTC.getTime() + i * 86_400_000);   
       const keyUTC = d.toISOString().slice(0, 10);              
       series.push({
-        day: d.toLocaleDateString('en-GB', {                     
+        day: d.toLocaleDateString('en-GB', {
+          day: 'numeric',                     
           month: 'short',
           timeZone: 'Africa/Nairobi',                            
         }),
