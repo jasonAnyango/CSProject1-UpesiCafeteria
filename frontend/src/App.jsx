@@ -23,6 +23,7 @@ import StaffDashboard from "./pages/StaffDashboard.jsx"
 import StaffDashboardHome from "./pages/staffDashboardHome.jsx"
 import StaffOrders from "./pages/StaffOrders.jsx"
 import StaffMenu from "./pages/StaffMenu.jsx"
+import FeedbackList from './components/FeedbackList.jsx'
 import { AnimatePresence } from 'framer-motion'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import ResetPassword from "./pages/ResetPassword.jsx"
@@ -53,6 +54,7 @@ const App = () => {
             <Route path="/myorder" element={<MyOrders/>}></Route>    
             <Route path="/admin" element={<Administrator/>}></Route>  
             <Route path="/admin/deliveryLocation" element={<AdminDeliveryLocations />}></Route> 
+            <Route path="/admin/feedback" element={<FeedbackList />}></Route> 
             <Route path="/admin/users" element={<UserManagement />}></Route>
             <Route path="/admin/users/add" element={<AddUser />}></Route> 
             <Route path="/staff" element={<StaffDashboard />}>

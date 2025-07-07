@@ -7,7 +7,8 @@ import {
   Bell,
   BarChart2,
   Menu,
-  MapPin
+  MapPin,
+  MessageCircle
 } from 'lucide-react';
 
 const AdminDeliveryLocations = () => {
@@ -82,6 +83,9 @@ const AdminDeliveryLocations = () => {
           </Link>
           <Link to="/admin/deliveryLocation" className="flex items-center gap-3 text-amber-500 font-semibold">
             <MapPin className="w-5 h-5" />{sidebarOpen && 'Delivery Locations'}
+          </Link>
+          <Link to="/admin/feedback" className="flex items-center gap-3 hover:text-amber-500">
+            <MessageCircle className="w-5 h-5" />{sidebarOpen && 'Feedback'}
           </Link>
         </nav>
       </aside>
