@@ -49,7 +49,7 @@ const StaffOrders = () => {
     fetchOrders()
   }, [])
 
-  const statusOptions = ['pending', 'preparing', 'out for delivery', 'delivered', 'cancelled']
+  const statusOptions = ['pending', 'preparing', 'out for delivery', 'delivered']
 
   const getStatusColor = (status) => {
     switch (status) {
