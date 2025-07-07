@@ -11,7 +11,7 @@ import adminRoutes from './routes/adminRoutes.js'; // for admin routes
 import staffRoutes from './routes/staffRoutes.js' // Staff Routes
 // import { stkPush } from './mpesa/mpesa.js';
 import stkRoutes from './routes/stkRoutes.js'; // for STK Push routes
-
+import feedbackRoutes from './routes/feedbackRoutes.js'; // for feedback routes
 const app = express();
 
 // ✅ FIRST: Middleware
@@ -30,5 +30,6 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/admin', deliveryLocationRoutes);
 
 app.use('/api/staff', staffRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 export default app;
