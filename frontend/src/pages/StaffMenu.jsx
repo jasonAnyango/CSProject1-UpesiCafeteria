@@ -44,29 +44,6 @@ const StaffMenu = () => {
     }
   }
 
-  const handleDelete = async (id) => {
-    const confirm = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'This will delete the item permanently.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!',
-    })
-
-    if (confirm.isConfirmed) {
-      try {
-        await axios.delete(`http://localhost:5000/api/menu/${id}`)
-        setMenuItems(prev => prev.filter(item => item._id !== id))
-        Swal.fire('Deleted!', 'Menu item has been deleted.', 'success')
-      } catch (err) {
-        console.error('Delete error:', err)
-        Swal.fire('Error', 'Failed to delete item', 'error')
-      }
-    }
-  }
-
   const handleFormSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -207,9 +184,6 @@ const StaffMenu = () => {
                       </button>
                       <button onClick={() => handleAvailabilityToggle(item)} className="bg-purple-600 px-3 py-1 rounded text-sm hover:bg-purple-700">
                         Toggle
-                      </button>
-                      <button onClick={() => handleDelete(item._id)} className="bg-red-600 px-3 py-1 rounded text-sm hover:bg-red-700">
-                        Delete
                       </button>
                     </td>
                   </tr>
