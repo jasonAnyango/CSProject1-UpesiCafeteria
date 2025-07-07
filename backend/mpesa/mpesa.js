@@ -36,7 +36,7 @@ export const stkPush = async (phone, amount) => {
     Password: password,
     Timestamp: timestamp,
     TransactionType: "CustomerPayBillOnline",
-    Amount: amount,
+    Amount: 1,
     PartyA: phone,
     PartyB: process.env.MPESA_SHORTCODE,
     PhoneNumber: phone,
@@ -44,6 +44,7 @@ export const stkPush = async (phone, amount) => {
     AccountReference: "UpesiCafeteria",
     TransactionDesc: "Payment for order",
   };
+  console.log('📦 STK Push Payload:', JSON.stringify(payload, null, 2));
 
   const res = await axios.post(
     "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",

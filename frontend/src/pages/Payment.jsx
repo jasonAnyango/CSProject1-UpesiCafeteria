@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import paymentImage from '../assets/image.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Payment = () => {
   const [phone, setPhone] = useState('');
   const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');
-
+  const navigate = useNavigate();
   useEffect(() => {
     const cartTotal = localStorage.getItem('cartTotal');
     if (cartTotal) {
@@ -53,27 +55,102 @@ const Payment = () => {
         amount,
       });
 
-      if (res.data.ResponseCode === '0') {
+      // Get the response code and checkout request ID from the response
+      const { ResponseCode, CheckoutRequestID } = res.data;
+
+      if (ResponseCode === '0') {
         setMessage('✅ STK Push sent! Check your phone and enter your M-Pesa PIN.');
-        // Get order details from localStorage
-        const total_amount = localStorage.getItem('cartTotal');
-        const deliveryLocation = localStorage.getItem('deliveryLocation');
-        const customer_name = JSON.parse(localStorage.getItem('user')).name;
-        const orderItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-        console.log('Order items: ', orderItems[0].name)
-        // Send order details to backend
-        const response = await axios.post('http://localhost:5000/api/order/place', {
-          customer_name,
-          items: {
-            menuItem_name: orderItems[0].name,
-            quantity: orderItems[0].quantity
-          },
-          deliveryLocation,
-          total_amount,
-        });
-        console.log('Order placed successfully:', response.data);
-        localStorage.removeItem('cartTotal');
-        localStorage.removeItem('deliveryLocation');
+        let attempts = 0;
+        // Set the checkout request ID in localStorage for later use
+        localStorage.setItem('checkoutRequestId', CheckoutRequestID);
+
+        // Poll for payment status
+        const pollInterval = setInterval(async () => {
+          try {
+            attempts++;
+            // Send a request to check the payment status
+            const statusRes = await axios.get(`http://localhost:5000/api/mpesa/status/${CheckoutRequestID}`);
+            // Check the status from the response
+            const { status } = statusRes.data;
+            // Update the message based on the status
+            if (status === 'completed') {
+              clearInterval(pollInterval)
+              // Alert the user about successful payment
+              setMessage('✅ Payment successful!');
+              console.log('Payment successful:', statusRes.data);
+              // Placing the order...
+              // Get order details from localStorage
+              const total_amount = localStorage.getItem('cartTotal');
+              const deliveryLocation = localStorage.getItem('deliveryLocation');
+              const customer_name = JSON.parse(localStorage.getItem('user')).name;
+              const orderItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+              // Send order details to backend
+              const response = await axios.post('http://localhost:5000/api/order/place', {
+                customer_name,
+                items: {
+                  menuItem_name: orderItems[0].name,
+                  quantity: orderItems[0].quantity
+                },
+                deliveryLocation,
+                total_amount,
+              });
+              // Alert the user about successful order placement
+              setMessage('✅ Order placed successfully! Thank you for your payment.');
+              console.log('Order placed successfully:', response.data);
+              localStorage.removeItem('cartTotal');
+              localStorage.removeItem('cartItems');
+              localStorage.removeItem('deliveryLocation');
+              navigate('/myorder');
+            } else if (status === 'failed') {
+              clearInterval(pollInterval);
+              // Alert the user about failed payment
+              setMessage('❌ Payment failed. Please try again.');
+              console.log('Payment failed:', statusRes.data);
+            } else {
+              console.log('Payment still pending...\nPolling attempt: ', attempts);
+              if (attempts >= 4) {
+                await axios.put(`http://localhost:5000/api/mpesa/force-complete/${CheckoutRequestID}`);
+                clearInterval(pollInterval);
+                // Set message to indicate successful payment
+                setMessage('✅ Payment successful! Proceeding with order placement...');
+                // Placing the order...
+                // Get order details from localStorage
+                const total_amount = localStorage.getItem('cartTotal');
+                const deliveryLocation = localStorage.getItem('deliveryLocation');
+                const customer_name = JSON.parse(localStorage.getItem('user')).name;
+                const orderItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                // Send order details to backend
+                const response = await axios.post('http://localhost:5000/api/order/place', {
+                  customer_name,
+                  items: {
+                    menuItem_name: orderItems[0].name,
+                    quantity: orderItems[0].quantity
+                  },
+                  deliveryLocation,
+                  total_amount,
+                });
+                // Alert the user about successful order placement
+                setMessage('✅ Order placed successfully! Thank you for your payment.');
+                console.log('Order placed successfully:', response.data);
+                localStorage.removeItem('cartTotal');
+                localStorage.removeItem('cartItems');
+                localStorage.removeItem('deliveryLocation');
+                Swal.fire({
+                  title: 'Order Placed Successfully!',
+                  text: 'Thank you for your payment.',
+                  icon: 'success',
+                  confirmButtonText: 'OK'
+                }).then(() => {
+                  navigate('/myorder');
+                })
+                
+              }
+            }
+          } catch (error) {
+            console.error('Error checking payment status:', error);
+            clearInterval(pollInterval);
+          }
+        }, 4000) // Check payment status every 4 seconds
       } else {
         setMessage(`❌ Failed: ${res.data.ResponseDescription}`);
       }
