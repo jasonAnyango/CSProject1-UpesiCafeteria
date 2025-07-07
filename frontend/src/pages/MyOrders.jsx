@@ -22,6 +22,15 @@ const MyOrders = () => {
 
   const handleCancel = async (orderId, newStatus) => {
     try {
+      const timeLimit = 15 * 60 * 1000; // 15 minutes in milliseconds
+      if (new Date() - new Date(orders.find(o => o._id === orderId).created_at) > timeLimit) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cancellation Failed',
+          text: 'You can only cancel an order within 15 minutes of placing it.',
+        });
+        return;
+      }
       await axios.put(`http://localhost:5000/api/order/update/${orderId}`, {
         status: newStatus,
       })
@@ -86,7 +95,11 @@ const MyOrders = () => {
     <div className="mt-4 flex justify-between items-center">
       <div>
         <p className="text-gray-300">Total Price: KES {order.total_amount}</p>
-        <p className="text-md font-semibold text-amber-400">Order Status: {order.status}</p>
+        <p className="text-md font-semibold text-amber-400">Order Status: {order.status === 'out for delivery'
+        ? <span className="text-amber-400">Your order is {order.status}. Kindly meet the delivery person at the specified location.</span>
+        : order.status === 'delivered'
+        ? <span className="text-green-400">Your order has been {order.status}. Thank you for choosing us!</span>
+        : <span className='text-amber-400'>{order.status}</span>}</p>
       </div>
       <button
         onClick={() => handleCancel(order._id, 'cancelled')}
