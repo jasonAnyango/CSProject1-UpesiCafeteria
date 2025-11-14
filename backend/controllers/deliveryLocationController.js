@@ -1,4 +1,4 @@
-import DeliveryLocation from '../models/deliveryLocation.js';
+import DeliveryLocation from '../models/DeliveryLocation.js';
 
 // Get all delivery locations
 export const getDeliveryLocations = async (req, res) => {
