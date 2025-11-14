@@ -15,7 +15,7 @@ const Checkout = () => {
 
   // Fetch delivery locations
   useEffect(() => {
-    axios.get('http://localhost:5000/api/admin/deliveryLocation')
+    axios.get('/api/admin/deliveryLocation')
       .then(res => {
         setLocations(res.data?.data || []);
       })

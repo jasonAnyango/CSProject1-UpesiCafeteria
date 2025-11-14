@@ -27,7 +27,7 @@ const ResetPassword = () => {
         }
 
         try {
-            await axios.post('http://localhost:5000/api/auth/reset-password', { email, newPassword });
+            await axios.post('/api/auth/reset-password', { email, newPassword });
 
             Swal.fire({
                 title: 'Password Reset Successful!',

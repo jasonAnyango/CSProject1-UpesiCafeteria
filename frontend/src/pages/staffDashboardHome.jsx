@@ -15,8 +15,8 @@ const StaffDashboardHome = () => {
     const fetchData = async () => {
       try {
         const [summaryRes, trendRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/staff/summary'),
-          axios.get('http://localhost:5000/api/staff/orderTrend?days=7'),
+          axios.get('/api/staff/summary'),
+          axios.get('/api/staff/orderTrend?days=7'),
         ]);
         setSummary(summaryRes.data);
         setTrend(trendRes.data);

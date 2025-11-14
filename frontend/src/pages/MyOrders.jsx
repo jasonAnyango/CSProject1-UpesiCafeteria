@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 const fetchMyOrders = async (customer_name) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/order/customer/${customer_name}` );
+    const response = await axios.get(`/api/order/customer/${customer_name}` );
     console.log("My Orders:", response.data);
     return response.data.orders;
   } catch (error) {
@@ -31,7 +31,7 @@ const MyOrders = () => {
         });
         return;
       }
-      await axios.put(`http://localhost:5000/api/order/update/${orderId}`, {
+      await axios.put(`/api/order/update/${orderId}`, {
         status: newStatus,
       })
       Swal.fire({

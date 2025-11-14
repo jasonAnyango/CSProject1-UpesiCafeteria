@@ -21,7 +21,7 @@ const StaffMenu = () => {
 
   const fetchMenuItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/menu/')
+      const response = await axios.get('/api/menu/')
       setMenuItems(response.data)
     } catch (err) {
       console.error('Error fetching menu items:', err)
@@ -34,7 +34,7 @@ const StaffMenu = () => {
   const handleAvailabilityToggle = async (item) => {
     try {
       const updated = { ...item, available: !item.available }
-      await axios.put(`http://localhost:5000/api/menu/${item._id}`, updated)
+      await axios.put(`/api/menu/${item._id}`, updated)
       setMenuItems(prev =>
         prev.map(m => m._id === item._id ? updated : m)
       )
@@ -48,10 +48,10 @@ const StaffMenu = () => {
     e.preventDefault()
     try {
       if (editingItemId) {
-        await axios.put(`http://localhost:5000/api/menu/${editingItemId}`, formData)
+        await axios.put(`/api/menu/${editingItemId}`, formData)
         Swal.fire('Success', 'Menu item updated', 'success')
       } else {
-        await axios.post('http://localhost:5000/api/menu/', formData)
+        await axios.post('/api/menu/', formData)
         Swal.fire('Success', 'Menu item added', 'success')
       }
       setFormData({ name: '', price: '', description: '', image_url: '', category: '' })

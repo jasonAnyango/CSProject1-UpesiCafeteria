@@ -16,7 +16,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/users');
+      const res = await axios.get('/api/admin/users');
       setUsers(res.data.data);
     } catch (error) {
       console.error('❌ Failed to fetch users:', error);
@@ -34,7 +34,7 @@ const UserManagement = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
+        await axios.delete(`/api/admin/users/${id}`);
         fetchUsers();
       } catch (error) {
         console.error('❌ Error deleting user:', error);

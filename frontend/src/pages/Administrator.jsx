@@ -58,7 +58,7 @@ const Administrator = () => {
   const [salesData, setSalesData] = useState([]);
   
   useEffect(() => {
-    fetch(`http://localhost:5000/api/admin/sales?range=${range}`)
+    fetch(`/api/admin/sales?range=${range}`)
       .then(res => res.json())
       .then(data => {
         console.log("Sales data fetched:", data);
@@ -68,7 +68,7 @@ const Administrator = () => {
   }, [range]);
   
   useEffect(() => {
-    fetch('http://localhost:5000/api/admin/stats')
+    fetch('/api/admin/stats')
       .then(res => res.json())
       .then(data => setStats(data))
       .catch(err => console.error("Failed to fetch quick stats", err));

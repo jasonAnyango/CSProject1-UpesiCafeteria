@@ -50,7 +50,7 @@ const Payment = () => {
 
     try {
       const formattedPhone = formatPhone(phone);
-      const res = await axios.post('http://localhost:5000/api/mpesa/pay', {
+      const res = await axios.post('/api/mpesa/pay', {
         phone: formattedPhone,
         amount,
       });
@@ -69,7 +69,7 @@ const Payment = () => {
           try {
             attempts++;
             // Send a request to check the payment status
-            const statusRes = await axios.get(`http://localhost:5000/api/mpesa/status/${CheckoutRequestID}`);
+            const statusRes = await axios.get(`/api/mpesa/status/${CheckoutRequestID}`);
             // Check the status from the response
             const { status } = statusRes.data;
             // Update the message based on the status
@@ -85,7 +85,7 @@ const Payment = () => {
               const customer_name = JSON.parse(localStorage.getItem('user')).name;
               const orderItems = JSON.parse(localStorage.getItem('cartItems')) || [];
               // Send order details to backend
-              const response = await axios.post('http://localhost:5000/api/order/place', {
+              const response = await axios.post('/api/order/place', {
                 customer_name,
                 items: {
                   menuItem_name: orderItems[0].name,
@@ -109,7 +109,7 @@ const Payment = () => {
             } else {
               console.log('Payment still pending...\nPolling attempt: ', attempts);
               if (attempts >= 4) {
-                await axios.put(`http://localhost:5000/api/mpesa/force-complete/${CheckoutRequestID}`);
+                await axios.put(`/api/mpesa/force-complete/${CheckoutRequestID}`);
                 clearInterval(pollInterval);
                 // Set message to indicate successful payment
                 setMessage('✅ Payment successful! Proceeding with order placement...');
@@ -120,7 +120,7 @@ const Payment = () => {
                 const customer_name = JSON.parse(localStorage.getItem('user')).name;
                 const orderItems = JSON.parse(localStorage.getItem('cartItems')) || [];
                 // Send order details to backend
-                const response = await axios.post('http://localhost:5000/api/order/place', {
+                const response = await axios.post('/api/order/place', {
                   customer_name,
                   items: {
                     menuItem_name: orderItems[0].name,

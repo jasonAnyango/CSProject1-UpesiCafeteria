@@ -86,7 +86,27 @@ export const getPaymentStatus = async (req, res) => {
 }
 
 
-// Force completion of payment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const forceCompletePayment = async (req, res) => {
   try {
     const { checkoutRequestId } = req.params;

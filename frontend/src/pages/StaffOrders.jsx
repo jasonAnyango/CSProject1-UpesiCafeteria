@@ -14,7 +14,7 @@ const StaffOrders = () => {
   const fetchOrders = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('http://localhost:5000/api/order/all')
+      const response = await axios.get('/api/order/all')
       setOrders(response.data.orders)
     } catch (error) {
       console.error('Error fetching orders:', error)
@@ -26,7 +26,7 @@ const StaffOrders = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/order/update/${orderId}`, {
+      await axios.put(`/api/order/update/${orderId}`, {
         status: newStatus,
       })
 

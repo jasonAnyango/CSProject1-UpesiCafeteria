@@ -20,7 +20,7 @@ const AdminDeliveryLocations = () => {
 
   const fetchLocations = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/deliveryLocation');
+      const res = await axios.get('/api/admin/deliveryLocation');
       setLocations(res.data?.data || []);
     } catch (err) {
       console.error(err);
@@ -44,7 +44,7 @@ const AdminDeliveryLocations = () => {
     if (!form.name.trim()) return;
 
     try {
-      await axios.post('http://localhost:5000/api/admin/deliveryLocation', form);
+      await axios.post('/api/admin/deliveryLocation', form);
       setForm({ name: '', description: '' });
       fetchLocations();
     } catch (err) {
@@ -56,7 +56,7 @@ const AdminDeliveryLocations = () => {
   const deleteLocation = async (id) => {
     if (!window.confirm('Are you sure you want to delete this location?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/deliveryLocation/${id}`);
+      await axios.delete(`/api/admin/deliveryLocation/${id}`);
       fetchLocations();
     } catch (err) {
       console.error(err);

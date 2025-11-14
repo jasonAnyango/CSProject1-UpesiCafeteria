@@ -18,7 +18,7 @@ const VerifyResetOtp = () => {
 
         try {
             // Send OTP to backend for verification
-            await axios.post('http://localhost:5000/api/auth/verify-reset-otp', { email, otp });
+            await axios.post('/api/auth/verify-reset-otp', { email, otp });
 
             Swal.fire({
                 title: 'OTP Verified!',
